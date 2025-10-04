@@ -3,11 +3,15 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-5.0%2B-green.svg)](https://developer.android.com)
 [![Latest Release](https://img.shields.io/github/v/release/ssfdre38/match-mania)](https://github.com/ssfdre38/match-mania/releases/latest)
+[![Website](https://img.shields.io/badge/Website-matchmaina.ssfdre38.xyz-blue.svg)](https://matchmaina.ssfdre38.xyz)
 
 Match Mania is an Android card game featuring AI opponents, player statistics, customizable profiles, and cryptographically secure random card shuffling.
 
+**🌐 Official Website:** [https://matchmaina.ssfdre38.xyz](https://matchmaina.ssfdre38.xyz)
+
 ## 📋 Table of Contents
 
+- [Official Website](#official-website)
 - [Features](#features)
 - [Installation](#installation)
 - [Game Rules](#game-rules)
@@ -16,6 +20,17 @@ Match Mania is an Android card game featuring AI opponents, player statistics, c
 - [Documentation](#documentation)
 - [Support](#support)
 - [License](#license)
+
+## Official Website
+
+**🌐 [https://matchmaina.ssfdre38.xyz](https://matchmaina.ssfdre38.xyz)**
+
+Visit our official website for:
+- 📥 Direct APK downloads for all versions
+- 📝 Complete changelog and release notes
+- 📸 Screenshots and game information
+- 📚 Full documentation and guides
+- ℹ️ About the game and developer info
 
 ## Features
 
@@ -94,7 +109,9 @@ Match Mania is an Android card game featuring AI opponents, player statistics, c
 ## Installation
 
 ### Download
-Download the latest APK from the [releases page](https://github.com/ssfdre38/match-mania/releases/latest).
+Download the latest APK from:
+- **Official Website**: [https://matchmaina.ssfdre38.xyz](https://matchmaina.ssfdre38.xyz) (Recommended)
+- **GitHub Releases**: [releases page](https://github.com/ssfdre38/match-mania/releases/latest)
 
 **Choose the right APK:**
 - **MatchMania-release-vX.X.X.apk** - For regular use (recommended)
@@ -202,6 +219,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) t
 
 Need help? Have questions?
 
+- 🌐 Visit our [Official Website](https://matchmaina.ssfdre38.xyz)
 - 📖 Check the [Wiki](https://github.com/ssfdre38/match-mania/wiki)
 - 💬 Join [Discussions](https://github.com/ssfdre38/match-mania/discussions)
 - 🐛 Report [Issues](https://github.com/ssfdre38/match-mania/issues)
