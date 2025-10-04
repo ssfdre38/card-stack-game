@@ -19,9 +19,16 @@ public class AboutActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("About");
         }
         
-        // Set version info
+        // Set version info dynamically from build configuration
         TextView versionView = findViewById(R.id.versionText);
-        versionView.setText("Version 2.0.2");
+        try {
+            String versionName = getPackageManager()
+                    .getPackageInfo(getPackageName(), 0)
+                    .versionName;
+            versionView.setText("Version " + versionName);
+        } catch (Exception e) {
+            versionView.setText("Version 2.3.0");
+        }
     }
     
     @Override

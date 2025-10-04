@@ -26,18 +26,24 @@ Match Mania is an Android card game featuring AI opponents, player statistics, c
 - **Classic Card Game Rules**: Match cards by color or number with special action cards
 - **Customizable Rules**: 8 different rule options to customize gameplay
 
-### 👤 Personalization (NEW in v2.0!)
+### 👤 Personalization
 - **Custom Player Name**: Choose your own name (up to 20 characters)
 - **48 Avatar Options**: Select from emojis including smileys, people, animals, and symbols
 - **Profile Persistence**: Your name and avatar are saved across games
 
-### 📊 Statistics System (NEW in v2.0!)
+### 📊 Statistics System
 - **Complete Stats Tracking**: Games played, won, lost, win rate
 - **Card Statistics**: Track cards played, drawn, special cards, and wilds
 - **Time Tracking**: Total play time, average game duration, fastest win, longest game
 - **Win Streaks**: Current streak and all-time best streak
 - **Match History**: View your last 50 games with details
 - **Reset Option**: Clear stats when you want a fresh start
+
+### 🚀 Updates & Settings (NEW in v2.3!)
+- **OTA Update System**: Automatic update checking via GitHub releases
+- **Check for Updates**: Manual update check in Settings
+- **8 Customizable Rules**: Action stacking, jump-in, seven-zero, progressive draw, and more
+- **Alphabetized Settings**: Easy-to-find game configuration options
 
 ### 🎨 Modern UI
 - **Beautiful Card Designs**: Color-coded cards with visual icons
@@ -145,6 +151,18 @@ adb install -r app/build/outputs/apk/release/app-release.apk
 
 ## Version History
 
+**Latest Releases:**
+- **v2.3.0** (Oct 2025) - OTA update system with automatic GitHub release checking
+- **v2.2.7** (Oct 2025) - Alphabetized game settings
+- **v2.2.6** (Oct 2025) - Larger corner elements for better readability
+- **v2.2.5** (Oct 2025) - Fixed corner numbers overflowing on phone screens
+- **v2.2.4** (Oct 2025) - Responsive UI with consistent card sizes across devices
+- **v2.2.3** (Oct 2025) - Fixed played card area visibility
+- **v2.2.2** (Oct 2025) - Game over dialog and animation improvements
+- **v2.2.1** (Oct 2025) - Card animation timing fixes
+- **v2.2.0** (Oct 2025) - Smooth card animations and visual effects
+
+**Previous Versions:**
 - **v2.0.2** - Repository renamed to match-mania, updated all links and references
 - **v2.0.1** - Verified build with proper signing (both debug and release APKs)
 - **v2.0.0** - Match Mania rebrand with signed APK, statistics, and profile customization
@@ -155,6 +173,8 @@ adb install -r app/build/outputs/apk/release/app-release.apk
 - **v1.2.1** - Correct game rules implementation
 - **v1.1.0** - Added visual card icons
 - **v1.0.0** - Initial release
+
+*For detailed release notes, see [CHANGELOG.md](CHANGELOG.md) or [GitHub Releases](https://github.com/ssfdre38/match-mania/releases)*
 
 ## 📚 Documentation
 

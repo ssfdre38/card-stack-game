@@ -72,7 +72,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="• 3 intelligent AI opponents\n• Customizable game rules\n• Screen rotation support\n• Beautiful card designs\n• Cryptographically secure shuffling\n• Multiple game modes\n• Save preferences"
+            android:text="• 4-player gameplay with AI\n• Custom profiles and avatars\n• Statistics tracking\n• Game history (last 50 games)\n• 8 customizable rules\n• OTA update system\n• Smooth card animations\n• Responsive UI for all devices"
             android:textSize="14sp"
             android:textColor="#ccc"
             android:paddingBottom="24dp"
