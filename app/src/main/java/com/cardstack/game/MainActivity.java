@@ -186,13 +186,23 @@ public class MainActivity extends AppCompatActivity {
         
         Player humanPlayer = gameEngine.getPlayers().get(0);
         
+        // Calculate card size based on available screen width for consistent appearance
+        int screenWidth = getResources().getDisplayMetrics().widthPixels;
+        int availableWidth = screenWidth - (int)(getResources().getDisplayMetrics().density * 32); // Subtract padding
+        
+        // Determine optimal card size based on screen size
+        // Use a fixed ratio (2:3 aspect ratio for cards) and limit to reasonable sizes
+        int maxCardWidth = (int)(getResources().getDisplayMetrics().density * 100); // 100dp max
+        int minCardWidth = (int)(getResources().getDisplayMetrics().density * 70);  // 70dp min
+        
+        // Calculate card width: should fit ~5-6 cards comfortably on screen with overlap
+        int cardWidth = Math.max(minCardWidth, Math.min(maxCardWidth, availableWidth / 6));
+        int cardHeight = (int)(cardWidth * 1.5); // Maintain 2:3 aspect ratio
+        
         for (Card card : humanPlayer.getHand()) {
             CardView cardView = new CardView(this);
             cardView.setCard(card);
             cardView.setSmall(true);
-            
-            int cardWidth = (int) (getResources().getDisplayMetrics().density * 80);
-            int cardHeight = (int) (getResources().getDisplayMetrics().density * 120);
             
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     cardWidth,

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout for tablets (screens with width >= 600dp) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#1a1a2e">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Card Stack"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textColor="#eee"
+            android:gravity="center"
+            android:paddingBottom="8dp" />
+
+        <Button
+            android:id="@+id/profileButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:text="👤"
+            android:textSize="24sp"
+            android:backgroundTint="#16213e"
+            android:gravity="center"
+            android:layout_marginEnd="6dp" />
+
+        <Button
+            android:id="@+id/statsButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:text="📊"
+            android:textSize="24sp"
+            android:backgroundTint="#16213e"
+            android:gravity="center"
+            android:layout_marginEnd="6dp" />
+
+        <Button
+            android:id="@+id/aboutButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:text="ℹ"
+            android:textSize="24sp"
+            android:backgroundTint="#16213e"
+            android:gravity="center"
+            android:layout_marginEnd="6dp" />
+
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:text="⚙"
+            android:textSize="24sp"
+            android:backgroundTint="#16213e"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/currentPlayerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Current Player: You"
+        android:textSize="22sp"
+        android:textColor="#eee"
+        android:gravity="center"
+        android:paddingBottom="12dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/player1CardsView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="AI 1: 7 cards"
+            android:textSize="18sp"
+            android:textColor="#eee"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/player2CardsView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="AI 2: 7 cards"
+            android:textSize="18sp"
+            android:textColor="#eee"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/player3CardsView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="AI 3: 7 cards"
+            android:textSize="18sp"
+            android:textColor="#eee"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingEnd="48dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Top Card"
+                android:textSize="18sp"
+                android:textColor="#eee"
+                android:paddingBottom="12dp" />
+
+            <com.cardstack.game.CardView
+                android:id="@+id/topCardView"
+                android:layout_width="160dp"
+                android:layout_height="240dp"
+                android:elevation="4dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/deckCountView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deck: 52"
+                android:textSize="18sp"
+                android:textColor="#eee"
+                android:paddingBottom="12dp" />
+
+            <Button
+                android:id="@+id/drawButton"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="Draw Card"
+                android:textSize="18sp"
+                android:backgroundTint="#0f3460" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Cards"
+        android:textSize="20sp"
+        android:textColor="#eee"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/playerHandLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp" />
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/newGameButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Game"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#16213e" />
+
+</LinearLayout>

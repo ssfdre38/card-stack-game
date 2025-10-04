@@ -19,6 +19,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.2.4] - 2025-01-04
+
+### Fixed
+- **UI Consistency**: Fixed card sizes looking different on phones vs tablets
+- Cards now properly sized across all screen densities
+- Responsive card sizing based on available screen width
+- Maintains consistent 2:3 aspect ratio everywhere
+
+### Added
+- Tablet-optimized layout (layout-sw600dp) for screens ≥ 600dp wide
+- Larger UI elements on tablets (text, buttons, cards)
+- Better spacing and padding on large screens
+- Smart card sizing with min/max bounds (70dp-100dp)
+
+### Changed
+- Replaced fixed density calculation with responsive algorithm
+- Cards scale proportionally to screen width
+- Improved screen space utilization
+- Better visual consistency across devices
+
+### Technical
+- Created layout-sw600dp variant for tablets
+- Added screen width-based card sizing
+- Maintains proper aspect ratios
+- Version 2.2.3 → 2.2.4
+
 ## [2.2.3] - 2025-01-04
 
 ### Fixed
