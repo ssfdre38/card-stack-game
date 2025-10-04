@@ -217,7 +217,11 @@ public class UpdateChecker {
             if (patch == 1) return 10;
             return 12 + (patch - 2); // 2.2.2 = 12, 2.2.3 = 13, 2.2.4 = 14, etc.
         }
-        // Fallback calculation
+        if (major == 2 && minor == 3) {
+            // 2.3.0 = 18, 2.3.1 = 19, 2.3.2 = 20, etc.
+            return 18 + patch;
+        }
+        // Fallback calculation for future versions
         return (major * 1000) + (minor * 100) + patch;
     }
     
