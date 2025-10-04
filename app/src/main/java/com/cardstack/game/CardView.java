@@ -78,9 +78,9 @@ public class CardView extends View {
         int height = getHeight();
         float cornerRadius = width * 0.15f;
         
-        // Clip to card bounds to prevent any overflow
+        // Clip to card bounds to prevent any overflow - use rounded rect for proper clipping
         canvas.save();
-        RectF clipRect = new RectF(5, 5, width - 5, height - 5);
+        RectF clipRect = new RectF(0, 0, width, height);
         canvas.clipRect(clipRect);
         
         // Draw card background with rounded corners
@@ -126,31 +126,36 @@ public class CardView extends View {
             // Draw center number
             canvas.drawText(numText, centerX, centerY + (isSmall ? 15 : 30), numberPaint);
             
-            // Draw small number in corners - constrained within card bounds
+            // Draw small number in corners - fully constrained within card bounds
             Paint cornerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             cornerPaint.setColor(Color.WHITE);
-            cornerPaint.setTextSize(isSmall ? 18 : 26);
+            cornerPaint.setTextSize(isSmall ? 16 : 24);
             cornerPaint.setTextAlign(Paint.Align.CENTER);
             cornerPaint.setFakeBoldText(true);
             
             // Measure actual text dimensions
             float cornerTextWidth = cornerPaint.measureText(numText);
+            float cornerTextHeight = cornerPaint.getTextSize();
             
-            // Top-left corner - ensure it's within bounds with proper padding
-            float topY = 20 + cornerPaint.getTextSize(); // Below top edge
-            float leftX = 15 + cornerTextWidth / 2; // From left edge
+            // Calculate safe padding from edges (proportional to card size)
+            float edgePadding = Math.max(width * 0.08f, 12f); // 8% of width or 12px minimum
+            float topPadding = Math.max(height * 0.06f, cornerTextHeight); // Ensure text fits
             
-            // Make sure we're within card bounds
-            if (leftX < width - 10 && topY < height - 10) {
+            // Top-left corner - ensure it's fully within bounds
+            float leftX = edgePadding + cornerTextWidth / 2;
+            float topY = topPadding + cornerTextHeight / 2;
+            
+            // Only draw if completely within card bounds
+            if (leftX + cornerTextWidth / 2 < width - edgePadding && topY < height - topPadding) {
                 canvas.drawText(numText, leftX, topY, cornerPaint);
             }
             
-            // Bottom-right corner - ensure it's within bounds
-            float bottomY = height - 20; // Above bottom edge
-            float rightX = width - 15 - cornerTextWidth / 2; // From right edge
+            // Bottom-right corner - ensure it's fully within bounds
+            float rightX = width - edgePadding - cornerTextWidth / 2;
+            float bottomY = height - topPadding;
             
-            // Make sure we're within card bounds
-            if (rightX > 10 && bottomY > 10) {
+            // Only draw if completely within card bounds
+            if (rightX - cornerTextWidth / 2 > edgePadding && bottomY > topPadding) {
                 canvas.drawText(numText, rightX, bottomY, cornerPaint);
             }
             
@@ -158,16 +163,16 @@ public class CardView extends View {
             // Draw icon for special cards
             drawCardIcon(canvas, centerX, centerY, card.getType());
             
-            // Draw small icons in corners - properly constrained within card bounds
-            float cornerIconSize = isSmall ? 15 : 25;
-            float cornerPadding = isSmall ? 25 : 35;
+            // Draw small icons in corners - proportionally positioned within card bounds
+            float cornerIconSize = isSmall ? 12 : 20;
+            float cornerPadding = Math.max(width * 0.10f, isSmall ? 20 : 30); // 10% of width
             
             // Top-left corner icon
             float topLeftX = cornerPadding;
             float topLeftY = cornerPadding;
             
-            // Ensure within bounds
-            if (topLeftX < width - cornerPadding && topLeftY < height - cornerPadding) {
+            // Ensure completely within bounds (check against card edges minus icon size)
+            if (topLeftX + cornerIconSize < width - cornerPadding && topLeftY + cornerIconSize < height - cornerPadding) {
                 canvas.save();
                 canvas.translate(topLeftX, topLeftY);
                 drawCardIcon(canvas, 0, 0, card.getType(), cornerIconSize);
@@ -178,8 +183,8 @@ public class CardView extends View {
             float bottomRightX = width - cornerPadding;
             float bottomRightY = height - cornerPadding;
             
-            // Ensure within bounds
-            if (bottomRightX > cornerPadding && bottomRightY > cornerPadding) {
+            // Ensure completely within bounds
+            if (bottomRightX - cornerIconSize > cornerPadding && bottomRightY - cornerIconSize > cornerPadding) {
                 canvas.save();
                 canvas.translate(bottomRightX, bottomRightY);
                 canvas.rotate(180);

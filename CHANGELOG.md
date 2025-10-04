@@ -19,6 +19,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.2.5] - 2025-01-04
+
+### Fixed
+- **Card Display**: Fixed corner numbers appearing outside card boundaries on phone screens
+- Replaced fixed pixel positioning with proportional calculations
+- Corner elements now scale properly with card size
+- Improved canvas clipping to prevent any overflow
+- Reduced corner icon/text sizes for better fit
+
+### Changed
+- Corner numbers use proportional edge padding (8% of width)
+- Corner icons use proportional padding (10% of width)
+- Better bounds checking before drawing corners
+- Tighter canvas clipping (exact card bounds)
+- Smaller text sizes (16sp/24sp instead of 18sp/26sp)
+
+### Technical
+- CardView.java: Improved corner positioning algorithm
+- All corner elements properly constrained
+- Works on all screen sizes and densities
+- Version 2.2.4 → 2.2.5
+
 ## [2.2.4] - 2025-01-04
 
 ### Fixed
