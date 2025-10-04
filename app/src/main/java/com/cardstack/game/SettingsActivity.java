@@ -22,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch progressiveSwitch;
     private Switch forcePlaySwitch;
     private Switch challengeDrawFourSwitch;
+    private Switch drawToMatchSwitch;
     private Button resetButton;
     private Button saveButton;
     
@@ -53,6 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
         progressiveSwitch = findViewById(R.id.progressiveSwitch);
         forcePlaySwitch = findViewById(R.id.forcePlaySwitch);
         challengeDrawFourSwitch = findViewById(R.id.challengeDrawFourSwitch);
+        drawToMatchSwitch = findViewById(R.id.drawToMatchSwitch);
         resetButton = findViewById(R.id.resetButton);
         saveButton = findViewById(R.id.saveButton);
     }
@@ -69,6 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
         progressiveSwitch.setChecked(settings.isProgressiveUnoEnabled());
         forcePlaySwitch.setChecked(settings.isForcePlayEnabled());
         challengeDrawFourSwitch.setChecked(settings.isChallengeDrawFourEnabled());
+        drawToMatchSwitch.setChecked(settings.isDrawToMatchEnabled());
     }
     
     private void setupListeners() {
@@ -108,6 +111,7 @@ public class SettingsActivity extends AppCompatActivity {
         settings.setProgressiveUnoEnabled(progressiveSwitch.isChecked());
         settings.setForcePlayEnabled(forcePlaySwitch.isChecked());
         settings.setChallengeDrawFourEnabled(challengeDrawFourSwitch.isChecked());
+        settings.setDrawToMatchEnabled(drawToMatchSwitch.isChecked());
     }
     
     @Override

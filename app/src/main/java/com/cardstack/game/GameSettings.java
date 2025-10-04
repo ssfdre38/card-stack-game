@@ -13,6 +13,7 @@ public class GameSettings {
     private static final String KEY_PROGRESSIVE_UNO = "progressive_uno";
     private static final String KEY_FORCE_PLAY = "force_play";
     private static final String KEY_CHALLENGE_DRAW_FOUR = "challenge_draw_four";
+    private static final String KEY_DRAW_TO_MATCH = "draw_to_match";
     
     private SharedPreferences prefs;
     
@@ -25,6 +26,7 @@ public class GameSettings {
     public static final boolean DEFAULT_PROGRESSIVE = false;
     public static final boolean DEFAULT_FORCE_PLAY = false;
     public static final boolean DEFAULT_CHALLENGE_DRAW_FOUR = false;
+    public static final boolean DEFAULT_DRAW_TO_MATCH = false;
     
     public GameSettings(Context context) {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -100,6 +102,15 @@ public class GameSettings {
     
     public void setChallengeDrawFourEnabled(boolean enabled) {
         prefs.edit().putBoolean(KEY_CHALLENGE_DRAW_FOUR, enabled).apply();
+    }
+    
+    // Draw to Match (must draw until you get a playable card)
+    public boolean isDrawToMatchEnabled() {
+        return prefs.getBoolean(KEY_DRAW_TO_MATCH, DEFAULT_DRAW_TO_MATCH);
+    }
+    
+    public void setDrawToMatchEnabled(boolean enabled) {
+        prefs.edit().putBoolean(KEY_DRAW_TO_MATCH, enabled).apply();
     }
     
     // Reset to defaults

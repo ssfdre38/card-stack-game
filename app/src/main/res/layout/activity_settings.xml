@@ -362,6 +362,47 @@
                 android:checked="false" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#333" />
+
+        <!-- Draw to Match -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Draw to Match"
+                    android:textSize="16sp"
+                    android:textColor="#eee" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Keep drawing until you get a playable card"
+                    android:textSize="12sp"
+                    android:textColor="#888" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/drawToMatchSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false" />
+        </LinearLayout>
+
         <!-- Buttons -->
         <LinearLayout
             android:layout_width="match_parent"

@@ -77,14 +77,31 @@ public class MainActivity extends AppCompatActivity {
         });
 
         drawButton.setOnClickListener(v -> {
-            Card card = gameEngine.drawCard();
-            if (card != null) {
-                stats.recordCardDrawn();
-                gameEngine.getCurrentPlayer().addCard(card);
-                if (gameEngine.canPlayCard(card)) {
-                    Toast.makeText(this, "Card drawn - you can play it!", Toast.LENGTH_SHORT).show();
+            if (settings.isDrawToMatchEnabled()) {
+                // Draw to Match: Keep drawing until player gets a playable card
+                int cardsDrawn = 0;
+                Card card = null;
+                boolean foundPlayable = false;
+                
+                while (!foundPlayable && cardsDrawn < 20) { // Safety limit
+                    card = gameEngine.drawCard();
+                    if (card != null) {
+                        stats.recordCardDrawn();
+                        cardsDrawn++;
+                        gameEngine.getCurrentPlayer().addCard(card);
+                        
+                        if (gameEngine.canPlayCard(card)) {
+                            foundPlayable = true;
+                        }
+                    } else {
+                        break; // No more cards in deck
+                    }
+                }
+                
+                if (foundPlayable) {
+                    Toast.makeText(this, "Drew " + cardsDrawn + " card(s) - you can play now!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Card drawn - cannot play, turn skipped", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Drew " + cardsDrawn + " card(s) - no playable cards, turn skipped", Toast.LENGTH_SHORT).show();
                     String result = gameEngine.playCard(gameEngine.getTopCard(), gameEngine.getTopCard().getColor());
                     if (result != null && result.contains("wins")) {
                         handleGameEnd(result);
@@ -94,6 +111,26 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 updateUI();
+            } else {
+                // Standard rule: Draw one card
+                Card card = gameEngine.drawCard();
+                if (card != null) {
+                    stats.recordCardDrawn();
+                    gameEngine.getCurrentPlayer().addCard(card);
+                    if (gameEngine.canPlayCard(card)) {
+                        Toast.makeText(this, "Card drawn - you can play it!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Card drawn - cannot play, turn skipped", Toast.LENGTH_SHORT).show();
+                        String result = gameEngine.playCard(gameEngine.getTopCard(), gameEngine.getTopCard().getColor());
+                        if (result != null && result.contains("wins")) {
+                            handleGameEnd(result);
+                        } else {
+                            updateUI();
+                            processAITurns();
+                        }
+                    }
+                    updateUI();
+                }
             }
         });
 
@@ -231,15 +268,41 @@ public class MainActivity extends AppCompatActivity {
                 Card cardToPlay = currentPlayer.chooseCardToPlay(gameEngine.getTopCard(), settings.isActionStackingEnabled());
                 
                 if (cardToPlay == null) {
-                    Card drawnCard = gameEngine.drawCard();
-                    if (drawnCard != null) {
-                        currentPlayer.addCard(drawnCard);
-                        Toast.makeText(MainActivity.this, 
-                                currentPlayer.getDisplayName() + " drew a card", 
-                                Toast.LENGTH_SHORT).show();
+                    if (settings.isDrawToMatchEnabled()) {
+                        // Draw to Match: Keep drawing until AI gets a playable card
+                        int cardsDrawn = 0;
+                        boolean foundPlayable = false;
                         
-                        if (gameEngine.canPlayCard(drawnCard)) {
-                            cardToPlay = drawnCard;
+                        while (!foundPlayable && cardsDrawn < 20) { // Safety limit
+                            Card drawnCard = gameEngine.drawCard();
+                            if (drawnCard != null) {
+                                cardsDrawn++;
+                                currentPlayer.addCard(drawnCard);
+                                
+                                if (gameEngine.canPlayCard(drawnCard)) {
+                                    cardToPlay = drawnCard;
+                                    foundPlayable = true;
+                                }
+                            } else {
+                                break; // No more cards in deck
+                            }
+                        }
+                        
+                        Toast.makeText(MainActivity.this, 
+                                currentPlayer.getDisplayName() + " drew " + cardsDrawn + " card(s)", 
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Standard rule: Draw one card
+                        Card drawnCard = gameEngine.drawCard();
+                        if (drawnCard != null) {
+                            currentPlayer.addCard(drawnCard);
+                            Toast.makeText(MainActivity.this, 
+                                    currentPlayer.getDisplayName() + " drew a card", 
+                                    Toast.LENGTH_SHORT).show();
+                            
+                            if (gameEngine.canPlayCard(drawnCard)) {
+                                cardToPlay = drawnCard;
+                            }
                         }
                     }
                 }
