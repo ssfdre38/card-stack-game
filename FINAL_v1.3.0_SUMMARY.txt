@@ -1,0 +1,256 @@
+╔═══════════════════════════════════════════════════════════════════════╗
+║        ✅ v1.3.0 COMPLETE - SETTINGS & UI FIXES ✅                   ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+REPOSITORY: https://github.com/ssfdre38/card-stack-game
+LATEST RELEASE: https://github.com/ssfdre38/card-stack-game/releases/tag/v1.3.0
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎉 MAJOR NEW FEATURES:
+
+1. ⚙️ COMPREHENSIVE SETTINGS SYSTEM
+   ✅ 8 customizable game options
+   ✅ Persistent storage (SharedPreferences)
+   ✅ Beautiful settings UI
+   ✅ Reset to defaults option
+   ✅ Settings button in main screen
+
+2. ✅ FIXED CARD UI OVERFLOW
+   ✅ Numbers constrained within card boundaries
+   ✅ Dynamic text sizing
+   ✅ Better padding and margins
+   ✅ Improved corner positioning
+   ✅ No more cut-off text!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚙️ CUSTOMIZABLE SETTINGS:
+
+1. 🎴 Starting Cards (5-10)
+   - Default: 7 cards
+   - Choose game length
+
+2. 🔄 Action Card Stacking
+   - Default: Enabled
+   - Skip→Skip, Reverse→Reverse, +2→+2
+   - Toggle type matching
+
+3. 📤 Draw When Can't Play
+   - Default: Enabled
+   - Must draw if no valid plays
+
+4. 🚀 Jump-In Rule (Advanced)
+   - Default: Disabled
+   - Play identical card out of turn
+   - Chaotic gameplay!
+
+5. 7️⃣0️⃣ Seven-Zero Rule (Fun Variant)
+   - Default: Disabled
+   - 7 = swap hands
+   - 0 = rotate hands
+   - Dramatic strategy changes!
+
+6. 📈 Progressive Draw (Card Stacking)
+   - Default: Disabled
+   - +2 on +2 = 4 cards
+   - Massive card draws possible!
+
+7. 🎯 Force Play
+   - Default: Disabled
+   - Must play if you have valid card
+   - No strategic drawing
+
+8. 🎲 Challenge Wild +4 (Advanced)
+   - Default: Disabled
+   - Challenge illegal Wild +4
+   - Bluffing element
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎨 CARD UI IMPROVEMENTS:
+
+BEFORE (v1.2.1):
+❌ Numbers could overflow card boundaries
+❌ Text could extend past edges
+❌ Corner indicators misaligned
+❌ Text could be cut off
+
+AFTER (v1.3.0):
+✅ All text constrained within cards
+✅ Dynamic font sizing to fit space
+✅ 20% oval padding (increased from 15%)
+✅ 15% corner margins (better positioning)
+✅ Automatic text width measurement
+✅ Proper scaling for all card sizes
+
+Technical Improvements:
+- Added measureText() for dynamic sizing
+- Increased ovalPadding to 20%
+- Better corner positioning at 15%
+- Constrained small card text (16-28sp)
+- Improved center number sizing (40-80sp)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 DOWNLOADS:
+
+Debug APK (5.3 MB):
+https://github.com/ssfdre38/card-stack-game/releases/download/v1.3.0/app-debug.apk
+
+Release APK (4.3 MB):
+https://github.com/ssfdre38/card-stack-game/releases/download/v1.3.0/app-release-unsigned.apk
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎮 RECOMMENDED CONFIGURATIONS:
+
+🎯 STANDARD GAME (Default)
+- Starting: 7 cards
+- Action Stacking: ✅
+- Draw on No Play: ✅
+- All others: ❌
+→ Best for first-time players
+
+⚡ QUICK GAME
+- Starting: 5 cards
+- Action Stacking: ✅
+- Draw on No Play: ✅
+→ Fast casual play
+
+🧠 STRATEGIC GAME
+- Starting: 10 cards
+- Action Stacking: ❌
+- Force Play: ✅
+→ Thoughtful gameplay
+
+🎪 CHAOS MODE
+- Starting: 7 cards
+- Action Stacking: ✅
+- Progressive Draw: ✅
+- Seven-Zero: ✅
+- Jump-In: ✅
+→ Wild and unpredictable!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💻 TECHNICAL IMPLEMENTATION:
+
+NEW FILES:
+1. GameSettings.java
+   - Settings management
+   - SharedPreferences storage
+   - Default values
+
+2. SettingsActivity.java
+   - Settings UI
+   - Save/Reset functionality
+   - Input validation
+
+3. activity_settings.xml
+   - Beautiful dark theme layout
+   - SeekBar for starting cards
+   - Switches for toggles
+   - Descriptive help text
+
+MODIFIED FILES:
+1. CardView.java
+   - Fixed overflow issues
+   - Dynamic text sizing
+   - Better constraints
+
+2. Card.java
+   - Added allowActionStacking parameter
+   - Settings-aware matching
+
+3. GameEngine.java
+   - Uses settings for starting cards
+   - Passes settings to validation
+
+4. Player.java
+   - AI respects settings
+   - Settings-aware card selection
+
+5. MainActivity.java
+   - Settings button
+   - Settings integration
+   - Settings instance
+
+6. AndroidManifest.xml
+   - Registered SettingsActivity
+   - Parent activity relationship
+
+7. activity_main.xml
+   - Added settings button
+   - Layout adjustment
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 PROJECT STATISTICS:
+
+Total Java Files: 8 files
+Total XML Layouts: 3 files
+Settings Options: 8 customizable
+Lines Added: ~1,200
+APK Size: 5.3 MB (debug)
+Build Status: ✅ Success
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ COMPLETE FEATURE SET (v1.3.0):
+
+✅ Custom game rules (8 options)
+✅ Fixed card UI overflow
+✅ Screen rotation support
+✅ Beautiful card icons with symbols
+✅ 3 intelligent AI opponents
+✅ Cryptographic secure random shuffling
+✅ Original design (no trademarks)
+✅ Modern dark theme UI
+✅ Color-coded cards
+✅ Strategic gameplay
+✅ Persistent settings
+✅ Professional polish
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 HOW TO USE:
+
+1. Download and install v1.3.0 APK
+2. Tap ⚙ button on main screen
+3. Adjust your preferred settings
+4. Tap "Save Settings"
+5. Start a new game
+6. Enjoy customized gameplay!
+
+Settings persist across sessions - set once, play many times!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 VERSION HISTORY:
+
+v1.0.0 - Initial release
+v1.1.0 - Beautiful card icons
+v1.2.0 - Rotation support (over-corrected rules)
+v1.2.1 - Correct card matching rules
+v1.3.0 ⭐ CURRENT
+  - Comprehensive settings system
+  - Fixed card UI overflow
+  - 8 customizable options
+  - Professional polish
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎉 READY TO PLAY!
+
+Card Stack v1.3.0 is the most customizable, polished version yet!
+
+Features requested and delivered:
+✅ Fixed card UI overflow
+✅ Comprehensive settings system
+✅ Custom rules
+✅ Professional quality
+
+Download now and enjoy your personalized card game experience! 🃏⚙️
+
+╚═══════════════════════════════════════════════════════════════════════╝

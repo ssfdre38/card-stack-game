@@ -78,6 +78,11 @@ public class CardView extends View {
         int height = getHeight();
         float cornerRadius = width * 0.15f;
         
+        // Clip to card bounds to prevent any overflow
+        canvas.save();
+        RectF clipRect = new RectF(5, 5, width - 5, height - 5);
+        canvas.clipRect(clipRect);
+        
         // Draw card background with rounded corners
         cardPaint.setColor(card.getColorResource());
         RectF rect = new RectF(10, 10, width - 10, height - 10);
@@ -118,13 +123,23 @@ public class CardView extends View {
                 numberPaint.setTextSize(maxTextSize * maxWidth / textWidth);
             }
             
+            // Draw center number
             canvas.drawText(numText, centerX, centerY + (isSmall ? 15 : 30), numberPaint);
             
-            // Draw small number in corners - constrained
-            numberPaint.setTextSize(isSmall ? 16 : 28);
-            float cornerMargin = width * 0.15f;
-            canvas.drawText(numText, cornerMargin, height * 0.18f, textPaint);
-            canvas.drawText(numText, width - cornerMargin, height * 0.88f, textPaint);
+            // Draw small number in corners - constrained within card bounds
+            Paint cornerPaint = new Paint(textPaint);
+            cornerPaint.setColor(Color.WHITE);
+            cornerPaint.setTextSize(isSmall ? 16 : 24);
+            
+            // Top-left corner - ensure it's within bounds
+            float topMargin = Math.max(cornerPaint.getTextSize(), height * 0.15f);
+            float leftMargin = Math.max(cornerPaint.measureText(numText) / 2 + 10, width * 0.12f);
+            canvas.drawText(numText, leftMargin, topMargin, cornerPaint);
+            
+            // Bottom-right corner - ensure it's within bounds
+            float bottomMargin = Math.min(height - 10, height * 0.88f);
+            float rightMargin = Math.min(width - cornerPaint.measureText(numText) / 2 - 10, width * 0.88f);
+            canvas.drawText(numText, rightMargin, bottomMargin, cornerPaint);
             
         } else {
             // Draw icon for special cards
@@ -147,6 +162,9 @@ public class CardView extends View {
             drawCardIcon(canvas, 0, 0, card.getType());
             canvas.restore();
         }
+        
+        // Restore canvas (remove clipping)
+        canvas.restore();
     }
 
     private void drawCardIcon(Canvas canvas, float cx, float cy, Card.Type type) {
