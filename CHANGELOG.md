@@ -19,6 +19,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.2.3] - 2025-01-04
+
+### Fixed
+- **Code Quality**: Fixed draw card turn advancement logic
+- Changed GameEngine.nextPlayer() from private to public
+- Fixed 3 instances where code tried to "play the top card" to advance turn
+- Now correctly calls nextPlayer() directly when no playable card
+
+### Changed
+- Improved code clarity and maintainability
+- Better API design for GameEngine
+- More logical code flow
+
+### Technical
+- Same gameplay behavior (non-functional improvement)
+- Code now matches intent clearly
+- No breaking changes
+- Version 2.2.2 → 2.2.3
+
 ## [2.2.2] - 2025-01-04
 
 ### Fixed

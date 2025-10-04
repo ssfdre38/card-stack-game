@@ -104,13 +104,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "Drew " + cardsDrawn + " card(s) - you can play now!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Drew " + cardsDrawn + " card(s) - no playable cards, turn skipped", Toast.LENGTH_SHORT).show();
-                    String result = gameEngine.playCard(gameEngine.getTopCard(), gameEngine.getTopCard().getColor());
-                    if (result != null && result.contains("wins")) {
-                        handleGameEnd(result);
-                    } else {
-                        updateUI();
-                        processAITurns();
-                    }
+                    // Advance to next player since no playable card was found
+                    gameEngine.nextPlayer();
+                    updateUI();
+                    processAITurns();
                 }
                 updateUI();
             } else {
@@ -123,13 +120,10 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, "Card drawn - you can play it!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "Card drawn - cannot play, turn skipped", Toast.LENGTH_SHORT).show();
-                        String result = gameEngine.playCard(gameEngine.getTopCard(), gameEngine.getTopCard().getColor());
-                        if (result != null && result.contains("wins")) {
-                            handleGameEnd(result);
-                        } else {
-                            updateUI();
-                            processAITurns();
-                        }
+                        // Advance to next player since card is not playable
+                        gameEngine.nextPlayer();
+                        updateUI();
+                        processAITurns();
                     }
                     updateUI();
                 }
@@ -336,15 +330,14 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
                 } else {
-                    String result = gameEngine.playCard(gameEngine.getTopCard(), gameEngine.getTopCard().getColor());
-                    if (result != null && result.contains("wins")) {
-                        updateUI();
-                        showWinnerDialog(result);
-                        return;
-                    }
+                    // AI has no card to play, skip turn
+                    Toast.makeText(MainActivity.this, 
+                            currentPlayer.getDisplayName() + " has no playable card - turn skipped", 
+                            Toast.LENGTH_SHORT).show();
+                    gameEngine.nextPlayer();
                 }
 
-                updateUI(); // Animate top card change for AI plays
+                updateUI();
 
                 if (gameEngine.getCurrentPlayer().isAI()) {
                     handler.postDelayed(this, 1000);

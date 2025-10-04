@@ -150,7 +150,7 @@ public class GameEngine {
         }
     }
 
-    private void nextPlayer() {
+    public void nextPlayer() {
         if (clockwise) {
             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
         } else {
