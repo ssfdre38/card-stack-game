@@ -19,6 +19,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.3.5] - 2025-10-04
+
+### Added
+- **Website-First OTA Updates**: App now checks official website API first for updates
+- **Automatic Fallback**: If website unavailable, automatically falls back to GitHub API
+- **Faster Update Checks**: Website API responds faster with 5-second timeout
+- **Dual-Source Reliability**: No single point of failure for update distribution
+- **Automated Release System**: Complete build and deployment script for streamlined releases
+
+### Changed
+- OTA update system now prioritizes website (https://matchmaina.ssfdre38.xyz/api/latest-version.json)
+- GitHub API serves as reliable backup for update checks
+- Improved error handling and logging for update sources
+
+### Fixed
+- OTA update system build issues resolved (correct method placement)
+- Method structure corrected for proper Java compilation
+
+### Technical
+- Added `checkWebsiteAPI()` method for primary update source
+- Added `checkGitHubAPI()` method for backup update source
+- Website timeout: 5 seconds (fast response)
+- GitHub timeout: 10 seconds (reliable fallback)
+- Comprehensive logging for update source tracking
+
+## [2.3.4] - 2025-10-04
+
+### Changed
+- Wiki updated with official website links
+- Website featured as primary download source
+- Documentation improvements across all platforms
+- Prepared infrastructure for website-first OTA updates
+
+### Added
+- Official website API endpoint for version checking
+- Downloads directory for website APK hosting
+
 ## [2.3.3] - 2025-10-04
 
 ### Added
