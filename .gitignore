@@ -25,3 +25,6 @@ build/
 captures/
 .navigation/
 *.hprof
+
+# Keystore file (contains sensitive keys)
+*.keystore

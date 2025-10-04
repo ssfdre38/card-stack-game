@@ -21,7 +21,7 @@ public class AboutActivity extends AppCompatActivity {
         
         // Set version info
         TextView versionView = findViewById(R.id.versionText);
-        versionView.setText("Version 1.4.0");
+        versionView.setText("Version 2.0.0");
     }
     
     @Override

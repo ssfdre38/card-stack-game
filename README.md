@@ -1,15 +1,35 @@
-# Card Stack - Android Card Game
+# Match Mania - Android Card Game
 
-Card Stack is an Android card game similar to Uno, featuring AI opponents and cryptographically secure random card shuffling. The game avoids using any trademarked names or designs.
+Match Mania is an Android card game featuring AI opponents, player statistics, customizable profiles, and cryptographically secure random card shuffling.
 
 ## Features
 
-- **4-Player Game**: Play against 3 AI opponents
+### 🎮 Core Gameplay
+- **4-Player Game**: Play against 3 intelligent AI opponents with unique names and avatars
 - **True Randomness**: Uses Java's `SecureRandom` for cryptographically secure card shuffling
-- **Smart AI Players**: AI opponents make strategic decisions based on card types and hand composition
-- **Classic Card Game Rules**: Similar to popular matching card games
-- **Modern UI**: Clean, dark-themed interface with color-coded cards
-- **Original Design**: No trademarked names or graphics
+- **Smart AI Players**: Strategic AI decisions based on card types and hand composition
+- **Classic Card Game Rules**: Match cards by color or number with special action cards
+- **Customizable Rules**: 8 different rule options to customize gameplay
+
+### 👤 Personalization (NEW in v2.0!)
+- **Custom Player Name**: Choose your own name (up to 20 characters)
+- **48 Avatar Options**: Select from emojis including smileys, people, animals, and symbols
+- **Profile Persistence**: Your name and avatar are saved across games
+
+### 📊 Statistics System (NEW in v2.0!)
+- **Complete Stats Tracking**: Games played, won, lost, win rate
+- **Card Statistics**: Track cards played, drawn, special cards, and wilds
+- **Time Tracking**: Total play time, average game duration, fastest win, longest game
+- **Win Streaks**: Current streak and all-time best streak
+- **Match History**: View your last 50 games with details
+- **Reset Option**: Clear stats when you want a fresh start
+
+### 🎨 Modern UI
+- **Beautiful Card Designs**: Color-coded cards with visual icons
+- **Dark Theme Interface**: Easy on the eyes
+- **Screen Rotation Support**: Play in portrait or landscape
+- **4-Button Header**: Easy access to Profile, Stats, About, and Settings
+- **Enhanced Game Over**: View stats immediately after games
 
 ## Game Rules
 
@@ -30,16 +50,6 @@ Card Stack is an Android card game similar to Uno, featuring AI opponents and cr
 ### Winning
 - First player to play all their cards wins!
 
-## Card Distribution
-
-The deck contains 108 cards:
-- **Number Cards (0-9)**: 19 of each color (Red, Blue, Green, Yellow)
-  - One 0 card per color
-  - Two each of 1-9 per color
-- **Action Cards**: 8 of each type per color
-  - Skip, Reverse, Draw Two
-- **Wild Cards**: 4 Wild, 4 Wild Draw Four
-
 ## Building the App
 
 ### Prerequisites
@@ -49,104 +59,41 @@ The deck contains 108 cards:
 
 ### Build Steps
 
-1. Open the project in Android Studio:
-   ```bash
-   # Open Android Studio and select "Open an existing project"
-   # Navigate to the CardStackGame directory
-   ```
-
+1. Open the project in Android Studio
 2. Wait for Gradle to sync dependencies
-
-3. Build the APK:
-   - Click **Build** → **Build Bundle(s) / APK(s)** → **Build APK(s)**
-   - Or run: `./gradlew assembleDebug` (on macOS/Linux)
-   - Or run: `gradlew.bat assembleDebug` (on Windows)
-
-4. The APK will be located at:
-   ```
-   app/build/outputs/apk/debug/app-debug.apk
-   ```
-
-5. Install on device:
+3. Build the signed APK:
    ```bash
-   adb install app/build/outputs/apk/debug/app-debug.apk
+   ./gradlew assembleRelease
+   ```
+4. The signed APK will be located at:
+   ```
+   app/build/outputs/apk/release/app-release.apk
    ```
 
-### Running in Emulator
+## Installation
 
-1. Create an Android Virtual Device (AVD) in Android Studio
-2. Click the **Run** button (green triangle)
-3. Select your emulator
+Download the latest APK from the releases page and install on your Android device (Android 7.0 or higher).
 
-## Project Structure
+## Version History
 
-```
-CardStackGame/
-├── app/
-│   ├── src/main/
-│   │   ├── java/com/cardstack/game/
-│   │   │   ├── MainActivity.java      # Main game activity
-│   │   │   ├── Card.java              # Card model
-│   │   │   ├── Deck.java              # Deck with secure shuffling
-│   │   │   ├── Player.java            # Player with AI logic
-│   │   │   └── GameEngine.java        # Game logic engine
-│   │   ├── res/
-│   │   │   ├── layout/
-│   │   │   │   └── activity_main.xml  # Main UI layout
-│   │   │   ├── values/
-│   │   │   │   ├── strings.xml
-│   │   │   │   └── themes.xml
-│   │   │   └── mipmap-*/              # App icons
-│   │   └── AndroidManifest.xml
-│   └── build.gradle
-├── build.gradle
-├── settings.gradle
-└── README.md
-```
+- **v2.0.0** - Match Mania rebrand with signed APK, statistics, and profile customization
+- **v1.4.0** - Added statistics tracking and profile customization
+- **v1.3.3** - Random AI names and avatars
+- **v1.3.2** - Corner numbers fixed, About page added
+- **v1.3.0** - Custom game rules & settings
+- **v1.2.1** - Correct game rules implementation
+- **v1.1.0** - Added visual card icons
+- **v1.0.0** - Initial release
 
-## Technical Details
+## Developer
 
-### Random Number Generation
-The game uses `java.security.SecureRandom` for card shuffling, providing cryptographically strong random number generation. This ensures true randomness in card distribution.
-
-### AI Strategy
-AI players use a strategic decision-making process:
-1. Prioritize playing Wild Draw Four cards
-2. Then Draw Two cards
-3. Then Skip/Reverse cards
-4. Then regular Wild cards
-5. Finally, number cards
-6. When choosing wild card colors, AI selects the color most prevalent in their hand
-
-### Game Engine
-The `GameEngine` class manages:
-- Turn order and direction
-- Card playing validation
-- Special card effects
-- Automatic deck reshuffling when depleted
-- Win condition detection
-
-## Icon Design
-
-The app icon features three overlapping cards in red, blue, and green, fanned out to create a dynamic stack effect. The design is original and doesn't use any trademarked elements.
+**Created by:** Daniel Elliott  
+**Email:** ssfdre38@gmail.com  
+**Copyright:** © 2025 Daniel Elliott
 
 ## License
 
-This is a personal project created for educational purposes. The game mechanics are inspired by popular card games but use original implementation and design.
-
-## Future Enhancements
-
-Potential improvements:
-- Multiplayer over network
-- Difficulty levels for AI
-- Statistics tracking
-- Sound effects and animations
-- Customizable rules
-- Tournament mode
-
-## Support
-
-For issues or questions, please open an issue in the project repository.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 
