@@ -42,8 +42,14 @@ public class Card {
             return true;
         }
         
-        // Must match color OR (for number cards only) match the number
+        // Can play if colors match
         if (color == topCard.color) {
+            return true;
+        }
+        
+        // Can play if card types match (Skip on Skip, Reverse on Reverse, Draw Two on Draw Two)
+        // This allows action cards to be played on matching action cards regardless of color
+        if (type == topCard.type && type != Type.NUMBER) {
             return true;
         }
         
