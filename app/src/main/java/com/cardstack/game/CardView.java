@@ -129,7 +129,8 @@ public class CardView extends View {
             // Draw small number in corners - fully constrained within card bounds
             Paint cornerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             cornerPaint.setColor(Color.WHITE);
-            cornerPaint.setTextSize(isSmall ? 16 : 24);
+            // Larger text for better readability, especially on small screens
+            cornerPaint.setTextSize(isSmall ? 22 : 28);
             cornerPaint.setTextAlign(Paint.Align.CENTER);
             cornerPaint.setFakeBoldText(true);
             
@@ -138,12 +139,12 @@ public class CardView extends View {
             float cornerTextHeight = cornerPaint.getTextSize();
             
             // Calculate safe padding from edges (proportional to card size)
-            float edgePadding = Math.max(width * 0.08f, 12f); // 8% of width or 12px minimum
-            float topPadding = Math.max(height * 0.06f, cornerTextHeight); // Ensure text fits
+            float edgePadding = Math.max(width * 0.10f, 15f); // 10% of width or 15px minimum
+            float topPadding = Math.max(height * 0.08f, cornerTextHeight * 0.6f); // Ensure text fits
             
             // Top-left corner - ensure it's fully within bounds
             float leftX = edgePadding + cornerTextWidth / 2;
-            float topY = topPadding + cornerTextHeight / 2;
+            float topY = topPadding + cornerTextHeight * 0.75f; // Adjust baseline
             
             // Only draw if completely within card bounds
             if (leftX + cornerTextWidth / 2 < width - edgePadding && topY < height - topPadding) {
@@ -152,7 +153,7 @@ public class CardView extends View {
             
             // Bottom-right corner - ensure it's fully within bounds
             float rightX = width - edgePadding - cornerTextWidth / 2;
-            float bottomY = height - topPadding;
+            float bottomY = height - topPadding + cornerTextHeight * 0.25f; // Adjust baseline
             
             // Only draw if completely within card bounds
             if (rightX - cornerTextWidth / 2 > edgePadding && bottomY > topPadding) {
@@ -164,8 +165,9 @@ public class CardView extends View {
             drawCardIcon(canvas, centerX, centerY, card.getType());
             
             // Draw small icons in corners - proportionally positioned within card bounds
-            float cornerIconSize = isSmall ? 12 : 20;
-            float cornerPadding = Math.max(width * 0.10f, isSmall ? 20 : 30); // 10% of width
+            // Larger icons for better visibility on phones
+            float cornerIconSize = isSmall ? 18 : 24;
+            float cornerPadding = Math.max(width * 0.12f, isSmall ? 24 : 32); // 12% of width
             
             // Top-left corner icon
             float topLeftX = cornerPadding;

@@ -19,6 +19,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.2.6] - 2025-01-04
+
+### Changed
+- **Readability**: Significantly larger corner numbers and icons on all cards
+- Corner numbers: 16sp → 22sp (small cards, +37%), 24sp → 28sp (large cards, +17%)
+- Corner icons: 12px → 18px (small cards, +50%), 20px → 24px (large cards, +20%)
+- Increased edge padding: 8% → 10% for better spacing
+- Increased corner padding: 10% → 12% for icons
+- Improved text baseline positioning for better centering
+
+### Improved
+- Much better readability on phone screens
+- Easier to identify cards at a glance
+- Better accessibility for all users
+- More professional playing card appearance
+- Reduced eye strain during gameplay
+
+### Technical
+- CardView.java: Updated text sizes and padding calculations
+- All elements still properly constrained within card bounds
+- Version 2.2.5 → 2.2.6
+
 ## [2.2.5] - 2025-01-04
 
 ### Fixed
