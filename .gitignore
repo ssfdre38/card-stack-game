@@ -28,3 +28,7 @@ captures/
 
 # Keystore file (contains sensitive keys)
 *.keystore
+
+# Keystore files
+*.jks
+*.keystore
