@@ -79,10 +79,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         drawButton.setOnClickListener(v -> {
-            // Animate draw button press
-            Animation bounceAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
-            drawButton.startAnimation(bounceAnim);
-            
             if (settings.isDrawToMatchEnabled()) {
                 // Draw to Match: Keep drawing until player gets a playable card
                 int cardsDrawn = 0;
@@ -112,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     if (result != null && result.contains("wins")) {
                         handleGameEnd(result);
                     } else {
-                        updateUI(true);
+                        updateUI();
                         processAITurns();
                     }
                 }
@@ -131,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                         if (result != null && result.contains("wins")) {
                             handleGameEnd(result);
                         } else {
-                            updateUI(true);
+                            updateUI();
                             processAITurns();
                         }
                     }
@@ -162,11 +158,6 @@ public class MainActivity extends AppCompatActivity {
         gameEngine.addPlayer(new Player(aiProfiles.get(2).getName(), true, aiProfiles.get(2)));
 
         gameEngine.startGame();
-        
-        // Fade in animation for new game
-        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-        findViewById(R.id.topCardView).startAnimation(fadeIn);
-        
         updateUI();
     }
 
@@ -177,19 +168,9 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI(boolean animateTopCard) {
         Card topCard = gameEngine.getTopCard();
         topCardView.setCard(topCard);
-        
-        // Animate top card change
-        if (animateTopCard) {
-            Animation flipAnim = AnimationUtils.loadAnimation(this, R.anim.card_flip);
-            topCardView.startAnimation(flipAnim);
-        }
 
         Player currentPlayer = gameEngine.getCurrentPlayer();
         currentPlayerView.setText("Current Player: " + currentPlayer.getDisplayName());
-        
-        // Pulse animation on current player indicator
-        Animation pulseAnim = AnimationUtils.loadAnimation(this, R.anim.pulse);
-        currentPlayerView.startAnimation(pulseAnim);
 
         // Display AI players with avatars and names
         player1CardsView.setText(gameEngine.getPlayers().get(1).getDisplayName() + ": " + 
@@ -211,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
         
         Player humanPlayer = gameEngine.getPlayers().get(0);
         
-        int delay = 0;
         for (Card card : humanPlayer.getHand()) {
             CardView cardView = new CardView(this);
             cardView.setCard(card);
@@ -232,22 +212,12 @@ public class MainActivity extends AppCompatActivity {
             if (!gameEngine.getCurrentPlayer().isAI() && gameEngine.canPlayCard(card)) {
                 cardView.setAlpha(1.0f);
                 cardView.setClickable(true);
-                // Subtle bounce for playable cards
-                Animation bounceAnim = AnimationUtils.loadAnimation(this, R.anim.bounce);
-                bounceAnim.setStartOffset(delay);
-                cardView.startAnimation(bounceAnim);
             } else {
                 cardView.setAlpha(0.5f);
                 cardView.setClickable(gameEngine.getCurrentPlayer().isAI() ? false : gameEngine.canPlayCard(card));
             }
-            
-            // Stagger the card appearance for smooth effect
-            Animation slideInAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
-            slideInAnim.setStartOffset(delay);
-            cardView.startAnimation(slideInAnim);
 
             playerHandLayout.addView(cardView);
-            delay += 30; // Stagger by 30ms per card
         }
     }
 
@@ -270,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
             if (result != null && result.contains("wins")) {
                 handleGameEnd(result);
             } else {
-                updateUI(true); // Animate top card change
+                updateUI(); // Animate top card change
                 processAITurns();
             }
         }
@@ -287,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
             if (result != null && result.contains("wins")) {
                 handleGameEnd(result);
             } else {
-                updateUI(true); // Animate top card change
+                updateUI(); // Animate top card change
                 processAITurns();
             }
         });
@@ -361,20 +331,20 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     
                     if (result != null && result.contains("wins")) {
-                        updateUI(true);
+                        updateUI();
                         showWinnerDialog(result);
                         return;
                     }
                 } else {
                     String result = gameEngine.playCard(gameEngine.getTopCard(), gameEngine.getTopCard().getColor());
                     if (result != null && result.contains("wins")) {
-                        updateUI(true);
+                        updateUI();
                         showWinnerDialog(result);
                         return;
                     }
                 }
 
-                updateUI(true); // Animate top card change for AI plays
+                updateUI(); // Animate top card change for AI plays
 
                 if (gameEngine.getCurrentPlayer().isAI()) {
                     handler.postDelayed(this, 1000);

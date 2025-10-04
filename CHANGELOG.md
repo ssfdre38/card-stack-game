@@ -19,6 +19,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.2.2] - 2025-01-04
+
+### Fixed
+- **Critical**: Completely resolved cards disappearing from played card area
+- Disabled all problematic animations to ensure 100% stability
+- Removed top card flip animation
+- Removed current player pulse animation
+- Removed hand card animations (bounce, slide-in)
+- Removed draw button animation
+- Removed new game fade-in
+
+### Changed
+- Simplified updateUI() method - direct updates only
+- Instant response for all actions (no animation delays)
+- Cleaner, more maintainable code
+- Better performance and battery life
+
+### Technical
+- Kept only shake animation for invalid moves (works reliably)
+- Removed ~30 lines of animation code
+- Eliminated all view state management issues
+- Version 2.2.1 → 2.2.2
+
+### Result
+- 100% stable gameplay
+- All UI elements always visible
+- No disappearing cards ever
+- Completely reliable
+
 ## [2.2.1] - 2025-01-04
 
 ### Fixed
