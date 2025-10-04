@@ -87,16 +87,10 @@
                 android:textColor="#eee"
                 android:paddingBottom="8dp" />
 
-            <TextView
+            <com.cardstack.game.CardView
                 android:id="@+id/topCardView"
                 android:layout_width="120dp"
                 android:layout_height="180dp"
-                android:text="R5"
-                android:textSize="48sp"
-                android:textStyle="bold"
-                android:textColor="#fff"
-                android:background="#dc1414"
-                android:gravity="center"
                 android:elevation="4dp" />
         </LinearLayout>
 
@@ -135,18 +129,21 @@
         android:paddingTop="16dp"
         android:paddingBottom="8dp" />
 
-    <ScrollView
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:scrollbars="none">
 
         <LinearLayout
             android:id="@+id/playerHandLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="center" />
-    </ScrollView>
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+    </HorizontalScrollView>
 
     <Button
         android:id="@+id/newGameButton"

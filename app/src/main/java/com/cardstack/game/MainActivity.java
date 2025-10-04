@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
     private GameEngine gameEngine;
     private LinearLayout playerHandLayout;
-    private TextView topCardView;
+    private CardView topCardView;
     private TextView currentPlayerView;
     private TextView player1CardsView;
     private TextView player2CardsView;
@@ -81,9 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI() {
         Card topCard = gameEngine.getTopCard();
-        topCardView.setText(topCard.getDisplayText());
-        topCardView.setBackgroundColor(topCard.getColorResource());
-        topCardView.setTextColor(Color.WHITE);
+        topCardView.setCard(topCard);
 
         Player currentPlayer = gameEngine.getCurrentPlayer();
         currentPlayerView.setText("Current Player: " + currentPlayer.getName());
@@ -105,30 +103,31 @@ public class MainActivity extends AppCompatActivity {
         Player humanPlayer = gameEngine.getPlayers().get(0);
         
         for (Card card : humanPlayer.getHand()) {
-            Button cardButton = new Button(this);
-            cardButton.setText(card.getDisplayText());
-            cardButton.setBackgroundColor(card.getColorResource());
-            cardButton.setTextColor(Color.WHITE);
-            cardButton.setTextSize(18);
+            CardView cardView = new CardView(this);
+            cardView.setCard(card);
+            cardView.setSmall(true);
+            
+            int cardWidth = (int) (getResources().getDisplayMetrics().density * 80);
+            int cardHeight = (int) (getResources().getDisplayMetrics().density * 120);
             
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1.0f
+                    cardWidth,
+                    cardHeight
             );
-            params.setMargins(4, 4, 4, 4);
-            cardButton.setLayoutParams(params);
+            params.setMargins(8, 8, 8, 8);
+            cardView.setLayoutParams(params);
 
-            cardButton.setOnClickListener(v -> playHumanCard(card));
+            cardView.setOnClickListener(v -> playHumanCard(card));
             
             if (!gameEngine.getCurrentPlayer().isAI() && gameEngine.canPlayCard(card)) {
-                cardButton.setAlpha(1.0f);
+                cardView.setAlpha(1.0f);
+                cardView.setClickable(true);
             } else {
-                cardButton.setAlpha(0.5f);
-                cardButton.setEnabled(gameEngine.getCurrentPlayer().isAI() ? false : gameEngine.canPlayCard(card));
+                cardView.setAlpha(0.5f);
+                cardView.setClickable(gameEngine.getCurrentPlayer().isAI() ? false : gameEngine.canPlayCard(card));
             }
 
-            playerHandLayout.addView(cardButton);
+            playerHandLayout.addView(cardView);
         }
     }
 
