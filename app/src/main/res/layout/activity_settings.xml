@@ -409,7 +409,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="24dp"
-            android:paddingBottom="16dp">
+            android:paddingBottom="8dp">
 
             <Button
                 android:id="@+id/resetButton"
@@ -431,6 +431,15 @@
                 android:layout_marginStart="8dp"
                 android:backgroundTint="#0f3460" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/checkUpdateButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Check for Updates"
+            android:textSize="14sp"
+            android:backgroundTint="#16213e"
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:layout_width="match_parent"

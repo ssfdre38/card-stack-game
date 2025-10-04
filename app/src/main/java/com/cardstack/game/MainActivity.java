@@ -131,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         startNewGame();
+        
+        // Check for updates on app start (once per day)
+        new UpdateChecker(this).checkForUpdates();
     }
 
     private void startNewGame() {

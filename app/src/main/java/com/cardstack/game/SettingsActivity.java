@@ -25,6 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch drawToMatchSwitch;
     private Button resetButton;
     private Button saveButton;
+    private Button checkUpdateButton;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
         drawToMatchSwitch = findViewById(R.id.drawToMatchSwitch);
         resetButton = findViewById(R.id.resetButton);
         saveButton = findViewById(R.id.saveButton);
+        checkUpdateButton = findViewById(R.id.checkUpdateButton);
     }
     
     private void loadSettings() {
@@ -98,6 +100,13 @@ public class SettingsActivity extends AppCompatActivity {
             settings.resetToDefaults();
             loadSettings();
             Toast.makeText(this, "Settings reset to defaults", Toast.LENGTH_SHORT).show();
+        });
+        
+        checkUpdateButton.setOnClickListener(v -> {
+            Toast.makeText(this, "Checking for updates...", Toast.LENGTH_SHORT).show();
+            UpdateChecker checker = new UpdateChecker(this, true); // Force check
+            checker.clearSkippedVersion(); // Clear any skipped versions
+            checker.checkForUpdates();
         });
     }
     

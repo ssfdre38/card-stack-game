@@ -19,6 +19,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.3.0] - 2025-01-04
+
+### Added
+- **OTA Update System**: Automatic update checking using GitHub releases
+- Checks for updates automatically on app launch (once per 24 hours)
+- "Check for Updates" button in Settings for manual checks
+- Update notification dialog with:
+  - Current and new version information
+  - Direct download link to latest APK
+  - View details on GitHub
+  - Skip version option
+- Smart update detection using version codes
+- Respects user preferences (skip version, check interval)
+
+### Changed
+- Version 2.2.7 → 2.3.0 (minor version bump for new feature)
+- Added INTERNET and ACCESS_NETWORK_STATE permissions
+
+### Technical
+- New UpdateChecker.java class for OTA functionality
+- GitHub API integration for release checking
+- Background async update checking
+- SharedPreferences for update preferences
+- No user data collection, privacy-focused
+
+### Documentation
+- Added OTA_UPDATE_SYSTEM.md with full documentation
+- Includes usage, testing, troubleshooting guides
+
 ## [2.2.7] - 2025-01-04
 
 ### Changed
