@@ -46,10 +46,12 @@ Match Mania is an exciting card matching game for Android featuring AI players, 
 
 ## 🚀 Quick Links
 
-- [Download Latest Release](https://github.com/ssfdre38/match-mania/releases/latest)
-- [Report a Bug](https://github.com/ssfdre38/match-mania/issues/new?template=bug_report.md)
-- [Request a Feature](https://github.com/ssfdre38/match-mania/issues/new?template=feature_request.md)
-- [GitHub Repository](https://github.com/ssfdre38/match-mania)
+- [🌐 Official Website](https://matchmaina.ssfdre38.xyz) - Download, changelog, and more
+- [📥 Download Latest Release](https://matchmaina.ssfdre38.xyz#downloads)
+- [📥 GitHub Releases](https://github.com/ssfdre38/match-mania/releases/latest)
+- [🐛 Report a Bug](https://github.com/ssfdre38/match-mania/issues/new?template=bug_report.md)
+- [💡 Request a Feature](https://github.com/ssfdre38/match-mania/issues/new?template=feature_request.md)
+- [📁 GitHub Repository](https://github.com/ssfdre38/match-mania)
 
 ## 📄 License
 
@@ -63,5 +65,5 @@ We welcome contributions! Please see our [Contributing Guide](Contributing) for 
 
 ---
 
-**Last Updated**: January 2025  
-**Current Version**: v2.1.1
+**Last Updated**: October 2025  
+**Current Version**: v2.3.3

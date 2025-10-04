@@ -214,3 +214,15 @@ Yes! Please [submit a feature request](https://github.com/ssfdre38/match-mania/i
 
 **Last Updated**: January 2025  
 **Related**: [Installation Guide](Installation-Guide) | [Troubleshooting](Troubleshooting) | [Contributing](Contributing)
+
+### Where can I download Match Mania?
+
+You can download Match Mania from:
+- **Official Website**: [https://matchmaina.ssfdre38.xyz](https://matchmaina.ssfdre38.xyz) - All versions, changelog, and documentation
+- **GitHub Releases**: [Latest Release](https://github.com/ssfdre38/match-mania/releases/latest)
+
+The official website is recommended as it provides direct downloads, complete version history, and comprehensive documentation.
+
+### What's the latest version?
+
+The current version is **v2.3.3** (October 2025), which includes automatic background downloads, APK verification, and enhanced OTA update features.

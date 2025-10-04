@@ -16,16 +16,34 @@ This guide will help you install Match Mania on your Android device.
 
 ## Installation Methods
 
-### Method 1: Download from GitHub Releases (Recommended)
+### Method 1: Download from Official Website (Recommended)
 
-1. **Navigate to Releases**
-   - Visit the [Match Mania Releases page](https://github.com/ssfdre38/match-mania/releases)
-   - Find the latest release version
+1. **Visit the Official Website**
+   - Go to [matchmaina.ssfdre38.xyz](https://matchmaina.ssfdre38.xyz)
+   - Navigate to the Downloads section
 
 2. **Download the APK**
    - Download either:
-     - `MatchMania-release-vX.X.X.apk` (Signed, optimized version)
-     - `MatchMania-debug-vX.X.X.apk` (Debug version with logging)
+     - `MatchMania-release-v2.3.3.apk` (Signed, optimized version - Recommended)
+     - `MatchMania-debug-v2.3.3.apk` (Debug version with logging)
+   - The website includes all versions and complete changelog
+
+3. **Benefits of Website Download**
+   - Direct downloads (no GitHub account needed)
+   - All versions available in one place
+   - Complete changelog and documentation
+   - Faster download speeds
+
+### Method 2: Download from GitHub Releases
+
+1. **Navigate to Releases**
+   - Visit the [Match Mania Releases page](https://github.com/ssfdre38/match-mania/releases)
+   - Find the latest release version (v2.3.3)
+
+2. **Download the APK**
+   - Download either:
+     - `MatchMania-release-v2.3.3.apk` (Signed, optimized version)
+     - `MatchMania-debug-v2.3.3.apk` (Debug version with logging)
    - We recommend the release version for regular use
 
 3. **Enable Unknown Sources**

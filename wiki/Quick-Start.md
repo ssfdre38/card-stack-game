@@ -4,7 +4,9 @@ Get started with Match Mania in just a few minutes!
 
 ## Installation
 
-1. **Download** the latest APK from [Releases](https://github.com/ssfdre38/match-mania/releases/latest)
+1. **Download** the latest APK (v2.3.3) from:
+   - [Official Website](https://matchmaina.ssfdre38.xyz) (Recommended)
+   - [GitHub Releases](https://github.com/ssfdre38/match-mania/releases/latest)
 2. **Enable** installation from unknown sources on your device
 3. **Install** the APK file
 4. **Launch** Match Mania
