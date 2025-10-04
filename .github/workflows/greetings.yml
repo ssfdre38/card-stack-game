@@ -1,0 +1,29 @@
+name: Greetings
+
+on: [pull_request_target, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: |
+          Thanks for opening your first issue in Match Mania! 🎮
+          
+          We appreciate you taking the time to contribute. A maintainer will review your issue shortly.
+          
+          In the meantime, please make sure you've provided all the necessary information to help us understand and address your concern.
+        pr-message: |
+          Thanks for opening your first pull request in Match Mania! 🎉
+          
+          We appreciate your contribution. A maintainer will review your changes soon.
+          
+          Please make sure your PR:
+          - Follows the project's coding standards
+          - Includes appropriate tests
+          - Updates relevant documentation
