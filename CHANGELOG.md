@@ -19,6 +19,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.3.8] - 2025-01-04
+
+### Fixed
+- **Tablet Card Width Fix**: Fixed card width calculation for tablets in landscape mode
+- Cards on tablets now divide screen by 4 instead of 6, allowing for wider, more visually appealing cards
+- Improved card display on 7-10 inch tablets, especially in landscape orientation
+- Better utilization of available screen space on tablets
+
+### Technical
+- Updated card width calculation in `MainActivity.java` to use different divider for tablets vs phones
+- Tablets now show 4-5 cards across screen width (wider cards) vs 5-6 cards on phones
+- Maintains proper 2:3 aspect ratio for all screen sizes
+- Maximum card width remains 140dp for tablets, 100dp for phones
+
 ## [2.3.7] - 2025-01-04
 
 ### Fixed

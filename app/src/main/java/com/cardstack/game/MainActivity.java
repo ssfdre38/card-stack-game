@@ -204,8 +204,10 @@ public class MainActivity extends AppCompatActivity {
             (int)(getResources().getDisplayMetrics().density * 100);  // 100dp max for phones
         int minCardWidth = (int)(getResources().getDisplayMetrics().density * 70);  // 70dp min
         
-        // Calculate card width: should fit ~5-6 cards comfortably on screen with overlap
-        int cardWidth = Math.max(minCardWidth, Math.min(maxCardWidth, availableWidth / 6));
+        // Calculate card width: tablets can show fewer cards with more width each
+        // Phones show ~6 cards, tablets show ~4-5 cards to allow for wider cards
+        int cardDivider = isTablet ? 4 : 6;
+        int cardWidth = Math.max(minCardWidth, Math.min(maxCardWidth, availableWidth / cardDivider));
         int cardHeight = (int)(cardWidth * 1.5); // Maintain 2:3 aspect ratio
         
         for (Card card : humanPlayer.getHand()) {
