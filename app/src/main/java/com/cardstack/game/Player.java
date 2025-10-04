@@ -7,15 +7,32 @@ public class Player {
     private final String name;
     private final List<Card> hand;
     private final boolean isAI;
+    private final PlayerProfile profile;
 
     public Player(String name, boolean isAI) {
+        this(name, isAI, null);
+    }
+    
+    public Player(String name, boolean isAI, PlayerProfile profile) {
         this.name = name;
         this.isAI = isAI;
         this.hand = new ArrayList<>();
+        this.profile = profile;
     }
 
     public String getName() {
         return name;
+    }
+    
+    public String getDisplayName() {
+        if (profile != null) {
+            return profile.getDisplayName();
+        }
+        return name;
+    }
+    
+    public PlayerProfile getProfile() {
+        return profile;
     }
 
     public boolean isAI() {

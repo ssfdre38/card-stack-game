@@ -90,7 +90,7 @@ public class GameEngine {
         }
 
         if (currentPlayer.hasWon()) {
-            return currentPlayer.getName() + " wins!";
+            return currentPlayer.getDisplayName() + " wins! 🎉";
         }
 
         processCardEffect(card);

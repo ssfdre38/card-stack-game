@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     private GameEngine gameEngine;
     private GameSettings settings;
@@ -86,10 +88,15 @@ public class MainActivity extends AppCompatActivity {
     private void startNewGame() {
         gameEngine = new GameEngine(settings);
         
-        gameEngine.addPlayer(new Player("You", false));
-        gameEngine.addPlayer(new Player("AI 1", true));
-        gameEngine.addPlayer(new Player("AI 2", true));
-        gameEngine.addPlayer(new Player("AI 3", true));
+        // Create human player profile
+        PlayerProfile humanProfile = PlayerProfile.createPlayerProfile();
+        gameEngine.addPlayer(new Player("You", false, humanProfile));
+        
+        // Create AI players with random profiles
+        List<PlayerProfile> aiProfiles = PlayerProfile.generateAIProfiles(3);
+        gameEngine.addPlayer(new Player(aiProfiles.get(0).getName(), true, aiProfiles.get(0)));
+        gameEngine.addPlayer(new Player(aiProfiles.get(1).getName(), true, aiProfiles.get(1)));
+        gameEngine.addPlayer(new Player(aiProfiles.get(2).getName(), true, aiProfiles.get(2)));
 
         gameEngine.startGame();
         updateUI();
@@ -100,11 +107,15 @@ public class MainActivity extends AppCompatActivity {
         topCardView.setCard(topCard);
 
         Player currentPlayer = gameEngine.getCurrentPlayer();
-        currentPlayerView.setText("Current Player: " + currentPlayer.getName());
+        currentPlayerView.setText("Current Player: " + currentPlayer.getDisplayName());
 
-        player1CardsView.setText("AI 1: " + gameEngine.getPlayers().get(1).getCardCount() + " cards");
-        player2CardsView.setText("AI 2: " + gameEngine.getPlayers().get(2).getCardCount() + " cards");
-        player3CardsView.setText("AI 3: " + gameEngine.getPlayers().get(3).getCardCount() + " cards");
+        // Display AI players with avatars and names
+        player1CardsView.setText(gameEngine.getPlayers().get(1).getDisplayName() + ": " + 
+                                gameEngine.getPlayers().get(1).getCardCount() + " cards");
+        player2CardsView.setText(gameEngine.getPlayers().get(2).getDisplayName() + ": " + 
+                                gameEngine.getPlayers().get(2).getCardCount() + " cards");
+        player3CardsView.setText(gameEngine.getPlayers().get(3).getDisplayName() + ": " + 
+                                gameEngine.getPlayers().get(3).getCardCount() + " cards");
 
         deckCountView.setText("Deck: " + gameEngine.getDeckSize());
 
@@ -201,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                     if (drawnCard != null) {
                         currentPlayer.addCard(drawnCard);
                         Toast.makeText(MainActivity.this, 
-                                currentPlayer.getName() + " drew a card", 
+                                currentPlayer.getDisplayName() + " drew a card", 
                                 Toast.LENGTH_SHORT).show();
                         
                         if (gameEngine.canPlayCard(drawnCard)) {
@@ -221,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
 
                     String result = gameEngine.playCard(cardToPlay, wildColor);
                     Toast.makeText(MainActivity.this, 
-                            currentPlayer.getName() + " played " + cardToPlay.getDisplayText(), 
+                            currentPlayer.getDisplayName() + " played " + cardToPlay.getDisplayText(), 
                             Toast.LENGTH_SHORT).show();
                     
                     if (result != null && result.contains("wins")) {
