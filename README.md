@@ -130,6 +130,7 @@ adb install -r app/build/outputs/apk/release/app-release.apk
 
 ## Version History
 
+- **v2.0.2** - Repository renamed to match-mania, updated all links and references
 - **v2.0.1** - Verified build with proper signing (both debug and release APKs)
 - **v2.0.0** - Match Mania rebrand with signed APK, statistics, and profile customization
 - **v1.4.0** - Added statistics tracking and profile customization
