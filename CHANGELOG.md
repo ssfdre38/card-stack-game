@@ -19,6 +19,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.3.3] - 2025-10-04
+
+### Added
+- **Automatic Background Download**: Updates now download silently in background when detected
+- **Smart Update Detection**: Checks if update already downloaded before re-downloading
+- **APK Verification**: Validates downloaded APK file integrity (magic bytes check)
+- **SHA-256 Hash Calculation**: Stores file hash for security verification
+- **Install Ready Dialog**: Shows when update is downloaded and ready to install
+
+### Changed
+- **Two-Step Process**: Updates download automatically, then prompt user to install
+- **Better User Experience**: Download happens in background, installation requires explicit approval
+- **Improved Security**: File verification before installation
+- **Google Play Protect Compatible**: Enhanced verification helps with security scanning
+
+### Improved
+- **Seamless Downloads**: No progress dialog interruption during automatic download
+- **Download Persistence**: Downloaded updates saved until user installs or cancels
+- **Error Recovery**: Better handling of download failures with fallback options
+- **Storage Efficiency**: Verifies existing downloads before re-downloading
+
+### Technical
+- Added background download with DownloadManager (no UI interruption)
+- Added APK file verification (checks magic bytes: PK signature)
+- Added SHA-256 hash calculation and storage
+- Added download state persistence (version, path, hash)
+- Added `KEY_DOWNLOADED_VERSION`, `KEY_DOWNLOADED_PATH`, `KEY_DOWNLOAD_HASH` preferences
+- Enhanced error handling and file validation
+- Improved installation flow with separate download and install dialogs
+
+### Security
+- **File Verification**: Validates APK magic bytes before installation
+- **Hash Storage**: SHA-256 hash stored for integrity verification
+- **Size Check**: Ensures downloaded file meets minimum size requirements
+- **Signature Verification**: Android system verifies APK signature during install
+
 ## [2.3.2] - 2025-10-04
 
 ### Added

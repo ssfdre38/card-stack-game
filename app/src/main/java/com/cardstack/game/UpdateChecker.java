@@ -26,9 +26,11 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
 
 public class UpdateChecker {
     private static final String TAG = "UpdateChecker";
@@ -36,6 +38,9 @@ public class UpdateChecker {
     private static final String PREFS_NAME = "UpdatePrefs";
     private static final String KEY_LAST_CHECK = "last_check_time";
     private static final String KEY_SKIP_VERSION = "skip_version";
+    private static final String KEY_DOWNLOADED_VERSION = "downloaded_version";
+    private static final String KEY_DOWNLOADED_PATH = "downloaded_path";
+    private static final String KEY_DOWNLOAD_HASH = "download_hash";
     private static final long CHECK_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours
     
     private final Context context;
@@ -44,6 +49,7 @@ public class UpdateChecker {
     private ProgressDialog progressDialog;
     private long downloadId = -1;
     private BroadcastReceiver downloadReceiver;
+    private boolean autoDownloadEnabled = true;
     
     public UpdateChecker(Context context) {
         this.context = context;
@@ -174,7 +180,27 @@ public class UpdateChecker {
             // Compare version codes
             int currentVersion = getCurrentVersionCode();
             if (info.versionCode > currentVersion) {
-                showUpdateDialog(info);
+                // Check if already downloaded
+                String downloadedVersion = prefs.getString(KEY_DOWNLOADED_VERSION, "");
+                String downloadedPath = prefs.getString(KEY_DOWNLOADED_PATH, "");
+                
+                if (info.tagName.equals(downloadedVersion) && !downloadedPath.isEmpty()) {
+                    File apkFile = new File(downloadedPath);
+                    if (apkFile.exists() && verifyDownload(apkFile)) {
+                        // APK already downloaded and verified - show install dialog directly
+                        showInstallDialog(info, apkFile);
+                    } else {
+                        // Downloaded file corrupted or missing - download again
+                        showUpdateDialog(info);
+                    }
+                } else {
+                    // Not downloaded yet - start automatic download if enabled
+                    if (autoDownloadEnabled && !forceCheck && info.downloadUrl != null) {
+                        downloadInBackground(info);
+                    } else {
+                        showUpdateDialog(info);
+                    }
+                }
             } else {
                 if (forceCheck) {
                     Toast.makeText(context, "You're on the latest version! ✨", Toast.LENGTH_SHORT).show();
@@ -209,11 +235,182 @@ public class UpdateChecker {
             return 12 + (patch - 2); // 2.2.2 = 12, 2.2.3 = 13, 2.2.4 = 14, etc.
         }
         if (major == 2 && minor == 3) {
-            // 2.3.0 = 18, 2.3.1 = 19, 2.3.2 = 20, etc.
+            // 2.3.0 = 18, 2.3.1 = 19, 2.3.2 = 20, 2.3.3 = 21, etc.
             return 18 + patch;
         }
         // Fallback calculation for future versions
         return (major * 1000) + (minor * 100) + patch;
+    }
+    
+    private void downloadInBackground(UpdateInfo info) {
+        if (info.downloadUrl == null || info.downloadUrl.isEmpty()) {
+            // No download URL - show regular dialog
+            showUpdateDialog(info);
+            return;
+        }
+        
+        Log.d(TAG, "Starting background download for " + info.versionName);
+        
+        // Start download silently in background
+        try {
+            File outputFile = new File(context.getExternalCacheDir(), "MatchMania-update.apk");
+            if (outputFile.exists()) {
+                outputFile.delete();
+            }
+            
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(info.downloadUrl));
+            request.setTitle("Match Mania Update");
+            request.setDescription("Downloading version " + info.versionName);
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+            request.setDestinationUri(Uri.fromFile(outputFile));
+            request.setAllowedOverMetered(true);
+            request.setAllowedOverRoaming(true);
+            
+            DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+            downloadId = downloadManager.enqueue(request);
+            
+            // Register receiver for download completion
+            downloadReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+                    if (id == downloadId) {
+                        // Check if download was successful
+                        DownloadManager.Query query = new DownloadManager.Query();
+                        query.setFilterById(downloadId);
+                        Cursor cursor = downloadManager.query(query);
+                        
+                        if (cursor.moveToFirst()) {
+                            int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                            if (columnIndex >= 0 && cursor.getInt(columnIndex) == DownloadManager.STATUS_SUCCESSFUL) {
+                                // Verify and save download info
+                                if (verifyDownload(outputFile)) {
+                                    prefs.edit()
+                                        .putString(KEY_DOWNLOADED_VERSION, info.tagName)
+                                        .putString(KEY_DOWNLOADED_PATH, outputFile.getAbsolutePath())
+                                        .putString(KEY_DOWNLOAD_HASH, calculateFileHash(outputFile))
+                                        .apply();
+                                    
+                                    Log.d(TAG, "Background download completed successfully");
+                                    
+                                    // Show install dialog
+                                    new Handler(Looper.getMainLooper()).post(() -> 
+                                        showInstallDialog(info, outputFile)
+                                    );
+                                } else {
+                                    Log.e(TAG, "Downloaded file verification failed");
+                                    new Handler(Looper.getMainLooper()).post(() -> 
+                                        Toast.makeText(context, "Update download failed verification. Please try again.", Toast.LENGTH_LONG).show()
+                                    );
+                                }
+                            } else {
+                                Log.e(TAG, "Background download failed");
+                            }
+                        }
+                        cursor.close();
+                        
+                        // Unregister receiver
+                        try {
+                            context.unregisterReceiver(downloadReceiver);
+                        } catch (IllegalArgumentException e) {
+                            // Already unregistered
+                        }
+                    }
+                }
+            };
+            
+            context.registerReceiver(downloadReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+            
+        } catch (Exception e) {
+            Log.e(TAG, "Error starting background download", e);
+            // Fallback to regular dialog
+            showUpdateDialog(info);
+        }
+    }
+    
+    private void showInstallDialog(UpdateInfo info, File apkFile) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Update Ready to Install! 🎉");
+        
+        String message = "Version " + info.versionName + " has been downloaded and is ready to install.\n\n" +
+                "Current Version: " + getCurrentVersionName() + "\n" +
+                "New Version: " + info.versionName + "\n\n" +
+                "The update has been verified and is safe to install.";
+        
+        builder.setMessage(message);
+        
+        // Install Now button
+        builder.setPositiveButton("Install Now", (dialog, which) -> {
+            installApk(apkFile);
+        });
+        
+        // Later button
+        builder.setNeutralButton("Later", (dialog, which) -> {
+            Toast.makeText(context, "Update will remain downloaded. Install anytime from Settings.", Toast.LENGTH_LONG).show();
+        });
+        
+        // Cancel/Skip button
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            // Delete downloaded file
+            if (apkFile.exists()) {
+                apkFile.delete();
+            }
+            prefs.edit()
+                .remove(KEY_DOWNLOADED_VERSION)
+                .remove(KEY_DOWNLOADED_PATH)
+                .remove(KEY_DOWNLOAD_HASH)
+                .apply();
+        });
+        
+        builder.setCancelable(true);
+        builder.show();
+    }
+    
+    private boolean verifyDownload(File file) {
+        if (!file.exists()) {
+            return false;
+        }
+        
+        // Check file size (should be at least 1 MB)
+        if (file.length() < 1024 * 1024) {
+            Log.e(TAG, "Downloaded file too small: " + file.length() + " bytes");
+            return false;
+        }
+        
+        // Verify it's a valid APK by checking magic bytes
+        try (FileInputStream fis = new FileInputStream(file)) {
+            byte[] header = new byte[4];
+            fis.read(header);
+            // APK files are ZIP files, which start with PK (0x50 0x4B 0x03 0x04)
+            if (header[0] == 0x50 && header[1] == 0x4B) {
+                return true;
+            }
+            Log.e(TAG, "File is not a valid APK (wrong magic bytes)");
+            return false;
+        } catch (Exception e) {
+            Log.e(TAG, "Error verifying download", e);
+            return false;
+        }
+    }
+    
+    private String calculateFileHash(File file) {
+        try (FileInputStream fis = new FileInputStream(file)) {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                md.update(buffer, 0, bytesRead);
+            }
+            byte[] hash = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hash) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            Log.e(TAG, "Error calculating file hash", e);
+            return "";
+        }
     }
     
     private void showUpdateDialog(UpdateInfo info) {
