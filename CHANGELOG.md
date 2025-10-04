@@ -19,6 +19,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.3.6] - 2025-10-04
+
+### Fixed
+- **Tablet Card Display**: Fixed narrow card display on tablets in landscape mode
+- Cards now properly scale to fill screen on tablets (up to 140dp instead of 100dp)
+- Improved card sizing detection using `smallestScreenWidthDp` for tablets (>=600dp)
+- Better visual appearance on 7-10 inch tablets
+
+### Technical
+- Enhanced card width calculation to detect tablet devices
+- Maximum card width increased from 100dp to 140dp for tablets
+- Maintains proper 2:3 aspect ratio for all screen sizes
+- Phone card sizes remain unchanged (100dp max)
+
 ## [2.3.5] - 2025-10-04
 
 ### Added

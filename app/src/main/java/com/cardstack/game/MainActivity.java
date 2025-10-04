@@ -195,7 +195,13 @@ public class MainActivity extends AppCompatActivity {
         
         // Determine optimal card size based on screen size
         // Use a fixed ratio (2:3 aspect ratio for cards) and limit to reasonable sizes
-        int maxCardWidth = (int)(getResources().getDisplayMetrics().density * 100); // 100dp max
+        // Check if device is a tablet (smallest width >= 600dp)
+        float smallestWidthDp = getResources().getConfiguration().smallestScreenWidthDp;
+        boolean isTablet = smallestWidthDp >= 600;
+        
+        int maxCardWidth = isTablet ? 
+            (int)(getResources().getDisplayMetrics().density * 140) : // 140dp max for tablets
+            (int)(getResources().getDisplayMetrics().density * 100);  // 100dp max for phones
         int minCardWidth = (int)(getResources().getDisplayMetrics().density * 70);  // 70dp min
         
         // Calculate card width: should fit ~5-6 cards comfortably on screen with overlap
