@@ -86,13 +86,13 @@ public class CardView extends View {
         // Draw white border
         canvas.drawRoundRect(rect, cornerRadius, cornerRadius, borderPaint);
         
-        // Draw white oval in center
-        float ovalPadding = width * 0.15f;
+        // Draw white oval in center (with padding to ensure it stays inside)
+        float ovalPadding = width * 0.20f;
         RectF ovalRect = new RectF(
             ovalPadding, 
-            height * 0.25f, 
+            height * 0.30f, 
             width - ovalPadding, 
-            height * 0.75f
+            height * 0.70f
         );
         canvas.drawOval(ovalRect, whitePaint);
         
@@ -101,16 +101,30 @@ public class CardView extends View {
         float centerY = height / 2f;
         
         if (card.getType() == Card.Type.NUMBER) {
-            // Draw number
+            // Draw number - constrained to fit within card
             Paint numberPaint = new Paint(textPaint);
             numberPaint.setColor(card.getColorResource());
-            numberPaint.setTextSize(isSmall ? 48 : 96);
-            canvas.drawText(String.valueOf(card.getNumber()), centerX, centerY + (isSmall ? 18 : 36), numberPaint);
             
-            // Draw small number in corners
-            numberPaint.setTextSize(isSmall ? 20 : 32);
-            canvas.drawText(String.valueOf(card.getNumber()), width * 0.2f, height * 0.15f, textPaint);
-            canvas.drawText(String.valueOf(card.getNumber()), width * 0.8f, height * 0.9f, textPaint);
+            // Calculate appropriate text size to fit within oval
+            float maxTextSize = isSmall ? 40 : 80;
+            numberPaint.setTextSize(maxTextSize);
+            
+            // Ensure text fits within the oval width
+            String numText = String.valueOf(card.getNumber());
+            float textWidth = numberPaint.measureText(numText);
+            float maxWidth = (width - ovalPadding * 2) * 0.8f; // 80% of oval width
+            
+            if (textWidth > maxWidth) {
+                numberPaint.setTextSize(maxTextSize * maxWidth / textWidth);
+            }
+            
+            canvas.drawText(numText, centerX, centerY + (isSmall ? 15 : 30), numberPaint);
+            
+            // Draw small number in corners - constrained
+            numberPaint.setTextSize(isSmall ? 16 : 28);
+            float cornerMargin = width * 0.15f;
+            canvas.drawText(numText, cornerMargin, height * 0.18f, textPaint);
+            canvas.drawText(numText, width - cornerMargin, height * 0.88f, textPaint);
             
         } else {
             // Draw icon for special cards
@@ -118,15 +132,17 @@ public class CardView extends View {
             
             // Draw small icons in corners
             float cornerSize = isSmall ? 0.5f : 1f;
+            float cornerMargin = width * 0.15f;
+            
             canvas.save();
-            canvas.translate(width * 0.2f, height * 0.15f);
-            canvas.scale(cornerSize * 0.4f, cornerSize * 0.4f);
+            canvas.translate(cornerMargin, height * 0.15f);
+            canvas.scale(cornerSize * 0.35f, cornerSize * 0.35f);
             drawCardIcon(canvas, 0, 0, card.getType());
             canvas.restore();
             
             canvas.save();
-            canvas.translate(width * 0.8f, height * 0.9f);
-            canvas.scale(cornerSize * 0.4f, cornerSize * 0.4f);
+            canvas.translate(width - cornerMargin, height * 0.85f);
+            canvas.scale(cornerSize * 0.35f, cornerSize * 0.35f);
             canvas.rotate(180);
             drawCardIcon(canvas, 0, 0, card.getType());
             canvas.restore();

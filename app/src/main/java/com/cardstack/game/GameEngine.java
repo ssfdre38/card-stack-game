@@ -11,8 +11,10 @@ public class GameEngine {
     private boolean clockwise;
     private Card topCard;
     private Card.Color currentWildColor;
+    private GameSettings settings;
 
-    public GameEngine() {
+    public GameEngine(GameSettings settings) {
+        this.settings = settings;
         players = new ArrayList<>();
         deck = new Deck();
         discardPile = new ArrayList<>();
@@ -26,8 +28,10 @@ public class GameEngine {
     }
 
     public void startGame() {
+        int startingCards = settings.getStartingCards();
+        
         for (Player player : players) {
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < startingCards; i++) {
                 Card card = deck.draw();
                 if (card != null) {
                     player.addCard(card);
@@ -65,7 +69,7 @@ public class GameEngine {
     }
 
     public boolean canPlayCard(Card card) {
-        return card.canPlayOn(getTopCard());
+        return card.canPlayOn(getTopCard(), settings.isActionStackingEnabled());
     }
 
     public String playCard(Card card, Card.Color wildColor) {

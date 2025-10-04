@@ -31,7 +31,7 @@ public class Card {
         return number;
     }
 
-    public boolean canPlayOn(Card topCard) {
+    public boolean canPlayOn(Card topCard, boolean allowActionStacking) {
         // Wild cards can always be played
         if (type == Type.WILD || type == Type.WILD_DRAW_FOUR) {
             return true;
@@ -49,7 +49,8 @@ public class Card {
         
         // Can play if card types match (Skip on Skip, Reverse on Reverse, Draw Two on Draw Two)
         // This allows action cards to be played on matching action cards regardless of color
-        if (type == topCard.type && type != Type.NUMBER) {
+        // Only if action stacking is enabled in settings
+        if (allowActionStacking && type == topCard.type && type != Type.NUMBER) {
             return true;
         }
         

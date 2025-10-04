@@ -6,16 +6,33 @@
     android:padding="16dp"
     android:background="#1a1a2e">
 
-    <TextView
-        android:id="@+id/titleView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Card Stack"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="#eee"
-        android:gravity="center"
-        android:paddingBottom="16dp" />
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/titleView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Card Stack"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#eee"
+            android:gravity="center"
+            android:paddingBottom="8dp" />
+
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="⚙"
+            android:textSize="20sp"
+            android:backgroundTint="#16213e"
+            android:gravity="center" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/currentPlayerView"

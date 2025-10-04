@@ -1,6 +1,7 @@
 package com.cardstack.game;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private GameEngine gameEngine;
+    private GameSettings settings;
     private LinearLayout playerHandLayout;
     private CardView topCardView;
     private TextView currentPlayerView;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        settings = new GameSettings(this);
+        
         playerHandLayout = findViewById(R.id.playerHandLayout);
         topCardView = findViewById(R.id.topCardView);
         currentPlayerView = findViewById(R.id.currentPlayerView);
@@ -43,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
         Button newGameButton = findViewById(R.id.newGameButton);
         newGameButton.setOnClickListener(v -> startNewGame());
+
+        Button settingsButton = findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
 
         drawButton.setOnClickListener(v -> {
             Card card = gameEngine.drawCard();
@@ -68,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startNewGame() {
-        gameEngine = new GameEngine();
+        gameEngine = new GameEngine(settings);
         
         gameEngine.addPlayer(new Player("You", false));
         gameEngine.addPlayer(new Player("AI 1", true));
@@ -178,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                Card cardToPlay = currentPlayer.chooseCardToPlay(gameEngine.getTopCard());
+                Card cardToPlay = currentPlayer.chooseCardToPlay(gameEngine.getTopCard(), settings.isActionStackingEnabled());
                 
                 if (cardToPlay == null) {
                     Card drawnCard = gameEngine.drawCard();

@@ -42,14 +42,14 @@ public class Player {
         return hand.isEmpty();
     }
 
-    public Card chooseCardToPlay(Card topCard) {
+    public Card chooseCardToPlay(Card topCard, boolean allowActionStacking) {
         if (!isAI) {
             return null;
         }
 
         List<Card> playableCards = new ArrayList<>();
         for (Card card : hand) {
-            if (card.canPlayOn(topCard)) {
+            if (card.canPlayOn(topCard, allowActionStacking)) {
                 playableCards.add(card);
             }
         }
