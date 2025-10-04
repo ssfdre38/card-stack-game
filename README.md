@@ -1,6 +1,21 @@
 # Match Mania - Android Card Game
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Android](https://img.shields.io/badge/Android-5.0%2B-green.svg)](https://developer.android.com)
+[![Latest Release](https://img.shields.io/github/v/release/ssfdre38/match-mania)](https://github.com/ssfdre38/match-mania/releases/latest)
+
 Match Mania is an Android card game featuring AI opponents, player statistics, customizable profiles, and cryptographically secure random card shuffling.
+
+## 📋 Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Game Rules](#game-rules)
+- [Building from Source](#building-the-app)
+- [Contributing](#contributing)
+- [Documentation](#documentation)
+- [Support](#support)
+- [License](#license)
 
 ## Features
 
@@ -141,16 +156,72 @@ adb install -r app/build/outputs/apk/release/app-release.apk
 - **v1.1.0** - Added visual card icons
 - **v1.0.0** - Initial release
 
-## Developer
+## 📚 Documentation
+
+Comprehensive documentation is available in our [Wiki](https://github.com/ssfdre38/match-mania/wiki):
+
+- **[Installation Guide](https://github.com/ssfdre38/match-mania/wiki/Installation-Guide)** - Detailed setup instructions
+- **[Game Rules](https://github.com/ssfdre38/match-mania/wiki/Game-Rules)** - Complete gameplay mechanics
+- **[Custom Rules](https://github.com/ssfdre38/match-mania/wiki/Custom-Rules)** - Configure your game
+- **[FAQ](https://github.com/ssfdre38/match-mania/wiki/FAQ)** - Common questions answered
+- **[Contributing](https://github.com/ssfdre38/match-mania/wiki/Contributing)** - How to contribute
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) to get started.
+
+### Ways to Contribute
+
+- 🐛 [Report bugs](https://github.com/ssfdre38/match-mania/issues/new?template=bug_report.md)
+- 💡 [Request features](https://github.com/ssfdre38/match-mania/issues/new?template=feature_request.md)
+- 🎮 [Report game balance issues](https://github.com/ssfdre38/match-mania/issues/new?template=game_balance.md)
+- 💬 [Join discussions](https://github.com/ssfdre38/match-mania/discussions)
+- 🔧 Submit pull requests
+
+## 💬 Support
+
+Need help? Have questions?
+
+- 📖 Check the [Wiki](https://github.com/ssfdre38/match-mania/wiki)
+- 💬 Join [Discussions](https://github.com/ssfdre38/match-mania/discussions)
+- 🐛 Report [Issues](https://github.com/ssfdre38/match-mania/issues)
+- 📧 Email: ssfdre38@gmail.com
+
+## 🔄 CI/CD
+
+This project uses GitHub Actions for:
+- ✅ Automated builds on push/PR
+- 🚀 Automated releases with signed APKs
+- 🧪 Code quality checks and linting
+- 📦 Artifact management
+
+See [.github/workflows](.github/workflows) for workflow configurations.
+
+## 🌟 Acknowledgments
+
+Thanks to all contributors who help make Match Mania better!
+
+## 👨‍💻 Developer
 
 **Created by:** Daniel Elliott  
 **Email:** ssfdre38@gmail.com  
 **Copyright:** © 2025 Daniel Elliott
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+### What This Means
+
+- ✅ You can use this code for personal and commercial purposes
+- ✅ You can modify and distribute the code
+- ✅ You must include the license and copyright notices
+- ⚠️ This software is provided "as is" without warranties
+
+## ⚖️ Legal Notice
+
+This game is an original creation and does not use any trademarked names, logos, or designs. All game mechanics and visual elements are implemented independently.
 
 ---
 
-**Note**: This game is an original creation and does not use any trademarked names, logos, or designs. All game mechanics and visual elements are implemented independently.
+**Enjoy Match Mania!** 🎮 If you like this project, please ⭐ star it on GitHub!
