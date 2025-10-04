@@ -19,6 +19,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.2.0] - 2025-01-04
+
+### Added
+- **Smooth Animations System**: Comprehensive animation framework throughout the game
+- **Card Play Animation**: Cards scale up, fade out, and move when played
+- **Card Draw Animation**: New cards appear with fade-in and scale effect
+- **Card Flip Animation**: Top card flips smoothly when changed (3D effect)
+- **Current Player Pulse**: Subtle pulse animation highlights whose turn it is
+- **Invalid Move Shake**: Cards shake when trying to play illegal moves
+- **Staggered Hand Animations**: Cards slide in sequentially with 30ms delays
+- **Playable Card Bounce**: Subtle bounce effect on cards that can be played
+- **Button Feedback**: Draw button bounces when pressed
+- **New Game Fade**: Smooth fade-in transition when starting new game
+
+### Changed
+- Enhanced visual feedback for all user interactions
+- Improved UI responsiveness with animation timing
+- Updated `MainActivity.java` with comprehensive animation support
+- Optimized animation durations for best user experience (200-500ms)
+
+### Technical
+- Created 9 animation XML resource files
+- Added animation imports to MainActivity
+- Hardware-accelerated animations for 60 FPS performance
+- Zero performance impact with optimized timing
+- Compatible with Android 7.0+ (API 24)
+
 ## [2.1.1] - 2025-01-04
 
 ### Fixed
