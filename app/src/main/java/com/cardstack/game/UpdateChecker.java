@@ -34,6 +34,7 @@ import java.security.MessageDigest;
 
 public class UpdateChecker {
     private static final String TAG = "UpdateChecker";
+    private static final String WEBSITE_API_URL = "https://matchmaina.ssfdre38.xyz/api/latest-version.json";
     private static final String GITHUB_API_URL = "https://api.github.com/repos/ssfdre38/match-mania/releases/latest";
     private static final String PREFS_NAME = "UpdatePrefs";
     private static final String KEY_LAST_CHECK = "last_check_time";
@@ -101,61 +102,16 @@ public class UpdateChecker {
     private class CheckUpdateTask extends AsyncTask<Void, Void, UpdateInfo> {
         @Override
         protected UpdateInfo doInBackground(Void... voids) {
-            HttpURLConnection connection = null;
-            try {
-                URL url = new URL(GITHUB_API_URL);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("Accept", "application/vnd.github.v3+json");
-                connection.setConnectTimeout(10000);
-                connection.setReadTimeout(10000);
-                
-                int responseCode = connection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-                    reader.close();
-                    
-                    // Parse JSON response
-                    JSONObject json = new JSONObject(response.toString());
-                    UpdateInfo info = new UpdateInfo();
-                    info.tagName = json.getString("tag_name");
-                    info.versionName = info.tagName.replace("v", "");
-                    info.name = json.optString("name", "New Version");
-                    info.body = json.optString("body", "");
-                    info.url = json.getString("html_url");
-                    
-                    // Extract version code
-                    info.versionCode = extractVersionCode(info.versionName);
-                    
-                    // Get download URL for APK
-                    JSONArray assets = json.optJSONArray("assets");
-                    if (assets != null) {
-                        for (int i = 0; i < assets.length(); i++) {
-                            JSONObject asset = assets.getJSONObject(i);
-                            String assetName = asset.getString("name");
-                            // Look for release APK (not debug)
-                            if (assetName.toLowerCase().contains("release") && assetName.endsWith(".apk")) {
-                                info.downloadUrl = asset.getString("browser_download_url");
-                                break;
-                            }
-                        }
-                    }
-                    
-                    return info;
-                }
-            } catch (Exception e) {
-                Log.e(TAG, "Error checking for updates", e);
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
+            // Try website API first
+            UpdateInfo info = checkWebsiteAPI();
+            if (info != null) {
+                Log.d(TAG, "Update info retrieved from website");
+                return info;
             }
-            return null;
+            
+            // Fallback to GitHub API
+            Log.d(TAG, "Website API unavailable, falling back to GitHub");
+            return checkGitHubAPI();
         }
         
         @Override
@@ -252,6 +208,111 @@ public class UpdateChecker {
         Log.d(TAG, "Starting background download for " + info.versionName);
         
         // Start download silently in background
+    
+    private UpdateInfo checkWebsiteAPI() {
+        HttpURLConnection connection = null;
+        try {
+            URL url = new URL(WEBSITE_API_URL);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setConnectTimeout(5000); // Shorter timeout for website
+            connection.setReadTimeout(5000);
+            
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+                
+                // Parse JSON response from website
+                JSONObject json = new JSONObject(response.toString());
+                UpdateInfo info = new UpdateInfo();
+                info.tagName = json.getString("version");
+                info.versionName = info.tagName.replace("v", "");
+                info.name = json.optString("name", "New Version");
+                info.body = json.optString("changelog", "");
+                info.url = json.optString("website_url", "https://matchmaina.ssfdre38.xyz");
+                info.downloadUrl = json.optString("download_url", "");
+                
+                // Extract version code
+                info.versionCode = extractVersionCode(info.versionName);
+                
+                Log.d(TAG, "Successfully retrieved update info from website: " + info.versionName);
+                return info;
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "Website API check failed: " + e.getMessage());
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+        return null;
+    }
+    
+    private UpdateInfo checkGitHubAPI() {
+        HttpURLConnection connection = null;
+        try {
+            URL url = new URL(GITHUB_API_URL);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/vnd.github.v3+json");
+            connection.setConnectTimeout(10000);
+            connection.setReadTimeout(10000);
+            
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+                
+                // Parse JSON response from GitHub
+                JSONObject json = new JSONObject(response.toString());
+                UpdateInfo info = new UpdateInfo();
+                info.tagName = json.getString("tag_name");
+                info.versionName = info.tagName.replace("v", "");
+                info.name = json.optString("name", "New Version");
+                info.body = json.optString("body", "");
+                info.url = json.getString("html_url");
+                
+                // Extract version code
+                info.versionCode = extractVersionCode(info.versionName);
+                
+                // Get download URL for APK
+                JSONArray assets = json.optJSONArray("assets");
+                if (assets != null) {
+                    for (int i = 0; i < assets.length(); i++) {
+                        JSONObject asset = assets.getJSONObject(i);
+                        String assetName = asset.getString("name");
+                        // Look for release APK (not debug)
+                        if (assetName.toLowerCase().contains("release") && assetName.endsWith(".apk")) {
+                            info.downloadUrl = asset.getString("browser_download_url");
+                            break;
+                        }
+                    }
+                }
+                
+                Log.d(TAG, "Successfully retrieved update info from GitHub: " + info.versionName);
+                return info;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "GitHub API check failed: " + e.getMessage());
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+        return null;
+    }
         try {
             File outputFile = new File(context.getExternalCacheDir(), "MatchMania-update.apk");
             if (outputFile.exists()) {
