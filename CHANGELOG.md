@@ -19,6 +19,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.3.1] - 2025-10-04
+
+### Fixed
+- **About Page**: Version now displays dynamically from build configuration
+- **Documentation**: Updated all version references to current (v2.3.0 → v2.3.1)
+- **Documentation**: Updated all dates to October 2025
+
+### Improved
+- **About Page**: Features list updated with current capabilities
+- **README**: Complete version history through v2.3.x
+- **README**: Added OTA update system to features section
+- **Consistency**: All version references and dates now accurate
+
+### Technical
+- AboutActivity.java: Dynamic version reading from PackageInfo
+- README.md: Enhanced version history and features
+- activity_about.xml: Updated build date and features
+- VERSION_UPDATE_SUMMARY.md: Documentation of all updates
+
+### Documentation
+- All copyright notices: © 2025 Daniel Elliott
+- All build dates: October 2025
+- Complete version tracking through v2.3.1
+- Future-proof version display (no more hard-coded versions)
+
 ## [2.3.0] - 2025-01-04
 
 ### Added
