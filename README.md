@@ -73,7 +73,7 @@ Match Mania is an Android card game featuring AI opponents, player statistics, c
 ## Installation
 
 ### Download
-Download the latest APK from the [releases page](https://github.com/ssfdre38/card-stack-game/releases/latest).
+Download the latest APK from the [releases page](https://github.com/ssfdre38/match-mania/releases/latest).
 
 **Choose the right APK:**
 - **MatchMania-release-vX.X.X.apk** - For regular use (recommended)

@@ -35,7 +35,7 @@
             android:id="@+id/versionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Version 1.3.2"
+            android:text="Version 2.0.2"
             android:textSize="16sp"
             android:textColor="#aaa"
             android:paddingBottom="24dp" />
@@ -204,7 +204,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Development: Card Stack Team\nUI/UX Design: Original Design\nIcon Design: Custom Graphics\nAI Implementation: Strategic Logic System\nTesting: Community Contributors"
+            android:text="Development: Daniel Elliott\nUI/UX Design: Original Design\nIcon Design: Custom Graphics\nAI Implementation: Strategic Logic System\nTesting: Community Contributors"
             android:textSize="14sp"
             android:textColor="#ccc"
             android:paddingBottom="24dp"
@@ -223,12 +223,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="For support, feature requests, or bug reports:\n\nGitHub: github.com/ssfdre38/card-stack-game\nIssues: github.com/ssfdre38/card-stack-game/issues"
+            android:text="For support, feature requests, or bug reports:\n\nGitHub: github.com/ssfdre38/match-mania\nIssues: github.com/ssfdre38/match-mania/issues\nEmail: ssfdre38@gmail.com"
             android:textSize="14sp"
             android:textColor="#ccc"
             android:paddingBottom="24dp"
             android:lineSpacingExtra="4dp"
-            android:autoLink="web" />
+            android:autoLink="web|email" />
 
         <!-- Build Info -->
         <TextView
