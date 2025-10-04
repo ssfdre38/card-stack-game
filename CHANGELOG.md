@@ -19,6 +19,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.2.7] - 2025-01-04
+
+### Changed
+- **Settings**: Alphabetized game play settings for easier navigation
+- Settings now appear in alphabetical order:
+  1. Action Card Stacking
+  2. Challenge Wild +4
+  3. Draw to Match
+  4. Draw When Can't Play
+  5. Force Play
+  6. Jump-In Rule
+  7. Progressive Draw
+  8. Seven-Zero Rule
+- Starting Cards slider remains at top (different control type)
+- Improved settings organization and usability
+
+### Technical
+- activity_settings.xml: Reordered settings sections
+- No functional changes, layout only
+- Version 2.2.6 → 2.2.7
+
 ## [2.2.6] - 2025-01-04
 
 ### Changed
