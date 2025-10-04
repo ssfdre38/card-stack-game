@@ -19,6 +19,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.3.7] - 2025-01-04
+
+### Fixed
+- **Android 13+ OTA Update Fix**: Fixed `RECEIVER_EXPORTED` error when downloading updates
+- Properly registered BroadcastReceiver with `RECEIVER_NOT_EXPORTED` flag for Android 13+ (API 33+)
+- Maintained backward compatibility with older Android versions
+- Update downloads now work correctly on Android 13 and newer devices
+
+### Technical
+- Added conditional receiver registration based on Android version
+- Used `Context.RECEIVER_NOT_EXPORTED` for Android 13+ (TIRAMISU and above)
+- Fixed security warning for dynamically registered BroadcastReceivers
+- Improved OTA update reliability across all Android versions
+
 ## [2.3.6] - 2025-10-04
 
 ### Fixed
