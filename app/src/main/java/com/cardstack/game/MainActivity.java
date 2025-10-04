@@ -19,6 +19,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private GameEngine gameEngine;
     private GameSettings settings;
+    private PlayerStats stats;
     private LinearLayout playerHandLayout;
     private CardView topCardView;
     private TextView currentPlayerView;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         settings = new GameSettings(this);
+        stats = new PlayerStats(this);
         
         playerHandLayout = findViewById(R.id.playerHandLayout);
         topCardView = findViewById(R.id.topCardView);
@@ -49,6 +51,18 @@ public class MainActivity extends AppCompatActivity {
 
         Button newGameButton = findViewById(R.id.newGameButton);
         newGameButton.setOnClickListener(v -> startNewGame());
+
+        Button profileButton = findViewById(R.id.profileButton);
+        profileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivityForResult(intent, 1);
+        });
+
+        Button statsButton = findViewById(R.id.statsButton);
+        statsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StatsActivity.class);
+            startActivity(intent);
+        });
 
         Button aboutButton = findViewById(R.id.aboutButton);
         aboutButton.setOnClickListener(v -> {
@@ -65,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         drawButton.setOnClickListener(v -> {
             Card card = gameEngine.drawCard();
             if (card != null) {
+                stats.recordCardDrawn();
                 gameEngine.getCurrentPlayer().addCard(card);
                 if (gameEngine.canPlayCard(card)) {
                     Toast.makeText(this, "Card drawn - you can play it!", Toast.LENGTH_SHORT).show();
@@ -72,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "Card drawn - cannot play, turn skipped", Toast.LENGTH_SHORT).show();
                     String result = gameEngine.playCard(gameEngine.getTopCard(), gameEngine.getTopCard().getColor());
                     if (result != null && result.contains("wins")) {
-                        showWinnerDialog(result);
+                        handleGameEnd(result);
                     } else {
                         updateUI();
                         processAITurns();
@@ -88,9 +103,14 @@ public class MainActivity extends AppCompatActivity {
     private void startNewGame() {
         gameEngine = new GameEngine(settings);
         
-        // Create human player profile
-        PlayerProfile humanProfile = PlayerProfile.createPlayerProfile();
-        gameEngine.addPlayer(new Player("You", false, humanProfile));
+        // Start tracking stats
+        stats.startGame();
+        
+        // Create human player profile with custom name/avatar
+        String playerName = stats.getPlayerName();
+        String playerAvatar = stats.getPlayerAvatar();
+        PlayerProfile humanProfile = new PlayerProfile(playerName, playerAvatar);
+        gameEngine.addPlayer(new Player(playerName, false, humanProfile));
         
         // Create AI players with random profiles
         List<PlayerProfile> aiProfiles = PlayerProfile.generateAIProfiles(3);
@@ -164,12 +184,15 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        // Track card played
+        stats.recordCardPlayed(card.getType());
+
         if (card.getType() == Card.Type.WILD || card.getType() == Card.Type.WILD_DRAW_FOUR) {
             showColorChoiceDialog(card);
         } else {
             String result = gameEngine.playCard(card, card.getColor());
             if (result != null && result.contains("wins")) {
-                showWinnerDialog(result);
+                handleGameEnd(result);
             } else {
                 updateUI();
                 processAITurns();
@@ -186,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setItems(colors, (dialog, which) -> {
             String result = gameEngine.playCard(card, colorEnums[which]);
             if (result != null && result.contains("wins")) {
-                showWinnerDialog(result);
+                handleGameEnd(result);
             } else {
                 updateUI();
                 processAITurns();
@@ -258,12 +281,39 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
     }
 
+    private void handleGameEnd(String result) {
+        // Check if human player won
+        Player humanPlayer = gameEngine.getPlayers().get(0);
+        if (humanPlayer.hasWon()) {
+            stats.recordWin();
+        } else {
+            String winnerName = result.split(" wins")[0];
+            stats.recordLoss(winnerName);
+        }
+        
+        showWinnerDialog(result);
+    }
+
     private void showWinnerDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Game Over!");
         builder.setMessage(message);
         builder.setPositiveButton("New Game", (dialog, which) -> startNewGame());
+        builder.setNeutralButton("View Stats", (dialog, which) -> {
+            Intent intent = new Intent(MainActivity.this, StatsActivity.class);
+            startActivity(intent);
+            startNewGame();
+        });
         builder.setCancelable(false);
         builder.show();
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            // Refresh game to use new profile
+            updateUI();
+        }
     }
 }
