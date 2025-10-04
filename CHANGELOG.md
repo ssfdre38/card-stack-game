@@ -19,6 +19,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.2.1] - 2025-01-04
+
+### Fixed
+- **Critical Bug**: Fixed cards disappearing from hand after playing them
+- Removed problematic card play animation from hand cards
+- Cards now play immediately with better responsiveness
+- Hand display refreshes correctly every time
+- Top card flip animation still works perfectly
+
+### Changed
+- Reduced bounce animation intensity for playable cards (more subtle)
+- Improved animation stability by removing fillAfter flags
+- Faster card play response (removed 300ms animation delay)
+
+### Technical
+- Simplified `playHumanCard()` method in MainActivity
+- Updated bounce.xml animation parameters
+- No breaking changes or migration required
+
 ## [2.2.0] - 2025-01-04
 
 ### Added

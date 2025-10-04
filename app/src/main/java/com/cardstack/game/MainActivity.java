@@ -260,27 +260,20 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         
-        // Animate card being played
-        Animation playAnim = AnimationUtils.loadAnimation(this, R.anim.card_play);
-        cardView.startAnimation(playAnim);
-        
-        // Delay the actual card play to sync with animation
-        handler.postDelayed(() -> {
-            // Track card played
-            stats.recordCardPlayed(card.getType());
+        // Track card played
+        stats.recordCardPlayed(card.getType());
 
-            if (card.getType() == Card.Type.WILD || card.getType() == Card.Type.WILD_DRAW_FOUR) {
-                showColorChoiceDialog(card);
+        if (card.getType() == Card.Type.WILD || card.getType() == Card.Type.WILD_DRAW_FOUR) {
+            showColorChoiceDialog(card);
+        } else {
+            String result = gameEngine.playCard(card, card.getColor());
+            if (result != null && result.contains("wins")) {
+                handleGameEnd(result);
             } else {
-                String result = gameEngine.playCard(card, card.getColor());
-                if (result != null && result.contains("wins")) {
-                    handleGameEnd(result);
-                } else {
-                    updateUI(true); // Animate top card change
-                    processAITurns();
-                }
+                updateUI(true); // Animate top card change
+                processAITurns();
             }
-        }, 300); // Match animation duration
+        }
     }
 
     private void showColorChoiceDialog(Card card) {
