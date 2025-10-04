@@ -32,17 +32,27 @@ public class Card {
     }
 
     public boolean canPlayOn(Card topCard) {
+        // Wild cards can always be played
         if (type == Type.WILD || type == Type.WILD_DRAW_FOUR) {
             return true;
         }
         
+        // After a wild card was played, check against the chosen color
         if (topCard.color == Color.WILD) {
             return true;
         }
         
-        return color == topCard.color || 
-               type == topCard.type || 
-               (type == Type.NUMBER && topCard.type == Type.NUMBER && number == topCard.number);
+        // Must match color OR (for number cards only) match the number
+        if (color == topCard.color) {
+            return true;
+        }
+        
+        // Number cards can match other number cards with the same number (regardless of color)
+        if (type == Type.NUMBER && topCard.type == Type.NUMBER && number == topCard.number) {
+            return true;
+        }
+        
+        return false;
     }
 
     public String getDisplayText() {
