@@ -158,22 +158,34 @@ public class CardView extends View {
             // Draw icon for special cards
             drawCardIcon(canvas, centerX, centerY, card.getType());
             
-            // Draw small icons in corners
-            float cornerSize = isSmall ? 0.5f : 1f;
-            float cornerMargin = width * 0.15f;
+            // Draw small icons in corners - properly constrained within card bounds
+            float cornerIconSize = isSmall ? 15 : 25;
+            float cornerPadding = isSmall ? 25 : 35;
             
-            canvas.save();
-            canvas.translate(cornerMargin, height * 0.15f);
-            canvas.scale(cornerSize * 0.35f, cornerSize * 0.35f);
-            drawCardIcon(canvas, 0, 0, card.getType());
-            canvas.restore();
+            // Top-left corner icon
+            float topLeftX = cornerPadding;
+            float topLeftY = cornerPadding;
             
-            canvas.save();
-            canvas.translate(width - cornerMargin, height * 0.85f);
-            canvas.scale(cornerSize * 0.35f, cornerSize * 0.35f);
-            canvas.rotate(180);
-            drawCardIcon(canvas, 0, 0, card.getType());
-            canvas.restore();
+            // Ensure within bounds
+            if (topLeftX < width - cornerPadding && topLeftY < height - cornerPadding) {
+                canvas.save();
+                canvas.translate(topLeftX, topLeftY);
+                drawCardIcon(canvas, 0, 0, card.getType(), cornerIconSize);
+                canvas.restore();
+            }
+            
+            // Bottom-right corner icon (rotated 180 degrees)
+            float bottomRightX = width - cornerPadding;
+            float bottomRightY = height - cornerPadding;
+            
+            // Ensure within bounds
+            if (bottomRightX > cornerPadding && bottomRightY > cornerPadding) {
+                canvas.save();
+                canvas.translate(bottomRightX, bottomRightY);
+                canvas.rotate(180);
+                drawCardIcon(canvas, 0, 0, card.getType(), cornerIconSize);
+                canvas.restore();
+            }
         }
         
         // Restore canvas (remove clipping)
@@ -184,6 +196,29 @@ public class CardView extends View {
         Paint iconColorPaint = new Paint(iconPaint);
         iconColorPaint.setColor(card.getColorResource());
         float size = isSmall ? 30 : 60;
+        
+        switch (type) {
+            case SKIP:
+                drawSkipIcon(canvas, cx, cy, size, iconColorPaint);
+                break;
+            case REVERSE:
+                drawReverseIcon(canvas, cx, cy, size, iconColorPaint);
+                break;
+            case DRAW_TWO:
+                drawDrawTwoIcon(canvas, cx, cy, size, iconColorPaint);
+                break;
+            case WILD:
+                drawWildIcon(canvas, cx, cy, size);
+                break;
+            case WILD_DRAW_FOUR:
+                drawWildDrawFourIcon(canvas, cx, cy, size);
+                break;
+        }
+    }
+    
+    private void drawCardIcon(Canvas canvas, float cx, float cy, Card.Type type, float size) {
+        Paint iconColorPaint = new Paint(iconPaint);
+        iconColorPaint.setColor(card.getColorResource());
         
         switch (type) {
             case SKIP:
