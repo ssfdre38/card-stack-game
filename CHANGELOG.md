@@ -19,6 +19,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.3.2] - 2025-10-04
+
+### Added
+- **Auto-Download & Install**: OTA system now automatically downloads and installs updates
+- **Progress Dialog**: Visual progress bar during APK download
+- **Smart Permissions**: Automatically requests install permission on Android 8+
+- **FileProvider Integration**: Secure APK installation via FileProvider
+- **Download Manager**: Uses Android DownloadManager for reliable downloads
+
+### Changed
+- **"Download" button** → **"Install Now"** button in update dialog
+- Now downloads APK automatically instead of opening browser
+- Launches Android package installer after download completes
+- Shows download progress with percentage
+
+### Improved
+- **One-Click Updates**: Download and install with single button press
+- **Better UX**: No more manual browser download and file navigation
+- **Progress Feedback**: Users see download progress in real-time
+- **Automatic Cleanup**: Old APK files automatically removed
+- **Error Handling**: Better error messages and fallback options
+
+### Technical
+- Added DownloadManager integration
+- Added ProgressDialog for download feedback
+- Added BroadcastReceiver for download completion
+- Added FileProvider configuration (file_paths.xml)
+- Added REQUEST_INSTALL_PACKAGES permission
+- Background thread for progress tracking
+
+### Permissions
+- INTERNET (existing)
+- ACCESS_NETWORK_STATE (existing)
+- REQUEST_INSTALL_PACKAGES (new - for Android 8+)
+
 ## [2.3.1] - 2025-10-04
 
 ### Fixed
