@@ -25,6 +25,16 @@
             android:paddingBottom="8dp" />
 
         <Button
+            android:id="@+id/aboutButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="ℹ"
+            android:textSize="20sp"
+            android:backgroundTint="#16213e"
+            android:gravity="center"
+            android:layout_marginEnd="4dp" />
+
+        <Button
             android:id="@+id/settingsButton"
             android:layout_width="48dp"
             android:layout_height="48dp"

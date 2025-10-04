@@ -22,6 +22,11 @@
             android:exported="false"
             android:parentActivityName=".MainActivity"
             android:label="Settings" />
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:label="About" />
     </application>
 
 </manifest>

@@ -127,19 +127,32 @@ public class CardView extends View {
             canvas.drawText(numText, centerX, centerY + (isSmall ? 15 : 30), numberPaint);
             
             // Draw small number in corners - constrained within card bounds
-            Paint cornerPaint = new Paint(textPaint);
+            Paint cornerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             cornerPaint.setColor(Color.WHITE);
-            cornerPaint.setTextSize(isSmall ? 16 : 24);
+            cornerPaint.setTextSize(isSmall ? 18 : 26);
+            cornerPaint.setTextAlign(Paint.Align.CENTER);
+            cornerPaint.setFakeBoldText(true);
             
-            // Top-left corner - ensure it's within bounds
-            float topMargin = Math.max(cornerPaint.getTextSize(), height * 0.15f);
-            float leftMargin = Math.max(cornerPaint.measureText(numText) / 2 + 10, width * 0.12f);
-            canvas.drawText(numText, leftMargin, topMargin, cornerPaint);
+            // Measure actual text dimensions
+            float cornerTextWidth = cornerPaint.measureText(numText);
+            
+            // Top-left corner - ensure it's within bounds with proper padding
+            float topY = 20 + cornerPaint.getTextSize(); // Below top edge
+            float leftX = 15 + cornerTextWidth / 2; // From left edge
+            
+            // Make sure we're within card bounds
+            if (leftX < width - 10 && topY < height - 10) {
+                canvas.drawText(numText, leftX, topY, cornerPaint);
+            }
             
             // Bottom-right corner - ensure it's within bounds
-            float bottomMargin = Math.min(height - 10, height * 0.88f);
-            float rightMargin = Math.min(width - cornerPaint.measureText(numText) / 2 - 10, width * 0.88f);
-            canvas.drawText(numText, rightMargin, bottomMargin, cornerPaint);
+            float bottomY = height - 20; // Above bottom edge
+            float rightX = width - 15 - cornerTextWidth / 2; // From right edge
+            
+            // Make sure we're within card bounds
+            if (rightX > 10 && bottomY > 10) {
+                canvas.drawText(numText, rightX, bottomY, cornerPaint);
+            }
             
         } else {
             // Draw icon for special cards
