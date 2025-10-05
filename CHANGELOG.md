@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.15] - 2025-10-05
+
+### Fixed
+- Website testing page now matches main site design
+- Consistent dark theme across all pages
+- Improved visual hierarchy and readability
+
+### Documentation
+- Updated testing page with modern design system
+- Enhanced copyright and attribution sections
+- Better mobile responsiveness
+
+
 ### Planned Features
 - Real-time multiplayer (local and online)
 - Additional rule variations (Jump-In, Seven-O, Progressive)
