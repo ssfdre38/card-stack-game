@@ -253,24 +253,38 @@ cd emulator-testing
 - **v1.3.0** - Custom game rules & settings
 - **v1.0.0** - Initial release
 
-*For detailed release notes, see [CHANGELOG.md](CHANGELOG.md) or [GitHub Releases](https://github.com/ssfdre38/match-mania/releases)*
+*For detailed release notes, see [CHANGELOG.md](CHANGELOG.md), [docs/releases/](docs/releases/), or [GitHub Releases](https://github.com/ssfdre38/match-mania/releases)*
 
 ## 📚 Documentation
 
-Comprehensive documentation is available in our [Wiki](https://github.com/ssfdre38/match-mania/wiki):
+Comprehensive documentation is available in multiple locations:
 
+### Wiki & Guides
 - **[Installation Guide](https://github.com/ssfdre38/match-mania/wiki/Installation-Guide)** - Detailed setup instructions
 - **[Game Rules](https://github.com/ssfdre38/match-mania/wiki/Game-Rules)** - Complete gameplay mechanics
 - **[Custom Rules](https://github.com/ssfdre38/match-mania/wiki/Custom-Rules)** - Configure your game
 - **[FAQ](https://github.com/ssfdre38/match-mania/wiki/FAQ)** - Common questions answered
-- **[Contributing](https://github.com/ssfdre38/match-mania/wiki/Contributing)** - How to contribute
+- **[Quick Start Guide](QUICK_START.md)** - Get started quickly
 
-### Additional Documentation
+### Project Documentation
+
+Organized documentation in the [docs/](docs/) directory:
+
+- 📦 **[Release Notes](docs/releases/)** - Version-specific release documentation
+- 🐛 **[Bug Fixes](docs/bugfixes/)** - Bug fix summaries and patches
+- ✨ **[Features](docs/features/)** - Feature implementation details
+- 🔧 **[Development](docs/development/)** - Development process and reviews
+- 🧪 **[Testing](docs/testing/)** - Test reports and quality assurance
+- 📚 **[Archives](docs/archives/)** - Historical documents and references
+
+### Additional Resources
 
 - 📋 [CHANGELOG.md](CHANGELOG.md) - Complete version history
-- 🧪 [Testing System](emulator-testing/README.md) - Automated testing documentation
+- 🧪 [Testing System](emulator-testing/README.md) - Automated testing framework
 - 📖 [Session History](chat-history/) - Development session summaries
 - ⚖️ [Copyright Info](emulator-testing/COPYRIGHT.md) - Third-party attributions
+- 🤝 [Contributing Guidelines](CONTRIBUTING.md) - How to contribute
+- 🔒 [Security Policy](SECURITY.md) - Security guidelines
 
 ## 🤝 Contributing
 
