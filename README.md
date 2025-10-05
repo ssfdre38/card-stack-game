@@ -100,19 +100,54 @@ Visit our official website for:
 - Android Studio (latest version recommended)
 - Android SDK 24 or higher
 - Java 8 or higher
+- Git (for cloning the repository)
 
-### Build Steps
+### Quick Start for Developers
+
+**Using the Developer Build Script (Recommended):**
+
+```bash
+# Clone the repository
+git clone https://github.com/ssfdre38/match-mania.git
+cd match-mania
+
+# Make script executable
+chmod +x scripts/dev-build.sh
+
+# Build debug APK (fastest for testing)
+./scripts/dev-build.sh --debug
+
+# Build and install to connected device
+./scripts/dev-build.sh --debug --install
+
+# Clean build with tests
+./scripts/dev-build.sh --debug --clean --test
+
+# See all options
+./scripts/dev-build.sh --help
+```
+
+**See `scripts/README.md` for complete documentation on developer tools.**
+
+### Manual Build Steps
 
 1. Open the project in Android Studio
 2. Wait for Gradle to sync dependencies
-3. Build the signed APK:
+3. Build the APK:
    ```bash
+   # Debug build (for testing)
+   ./gradlew assembleDebug
+   
+   # Release build (requires signing keys)
    ./gradlew assembleRelease
    ```
-4. The signed APK will be located at:
+4. The APK will be located at:
    ```
+   app/build/outputs/apk/debug/app-debug.apk
    app/build/outputs/apk/release/app-release.apk
    ```
+
+**Note:** Release builds require signing keys. For development and testing, use debug builds.
 
 ## Installation
 
@@ -296,6 +331,23 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) t
 - 🎮 [Report game balance issues](https://github.com/ssfdre38/match-mania/issues/new?template=game_balance.md)
 - 💬 [Join discussions](https://github.com/ssfdre38/match-mania/discussions)
 - 🔧 Submit pull requests
+
+### Developer Quick Start
+
+```bash
+# Clone and build
+git clone https://github.com/ssfdre38/match-mania.git
+cd match-mania
+./scripts/dev-build.sh --debug --install
+
+# See scripts/README.md for complete developer guide
+```
+
+**Important for Contributors:**
+- Use `scripts/dev-build.sh` for local builds
+- Don't modify version numbers (maintainer handles releases)
+- Test thoroughly before submitting PRs
+- Follow the code style in existing files
 
 ## 💬 Support
 

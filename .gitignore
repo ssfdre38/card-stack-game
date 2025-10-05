@@ -33,3 +33,7 @@ captures/
 *.jks
 *.keystore
 chat-history/
+
+# Personal release scripts (specific to maintainer's deployment)
+build_and_release.sh
+release.sh
