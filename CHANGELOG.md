@@ -19,6 +19,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.3.11] - 2025-01-05
+
+### Added
+- **User Choice Dialog**: Update dialog now appears BEFORE download starts
+- **Clear Options**: Download, Skip, or Close buttons for user control
+- **Auto-Install**: Package manager launches automatically after download completes
+
+### Changed
+- **OTA Flow**: Removed automatic download - user must click "Download" button
+- **Update Dialog**: Changed "Install Now" to "Download", removed "Details" button, added "Close" button
+- **Download Behavior**: Background download starts only after user approval
+- **Install Flow**: Package manager opens automatically when download completes (no intermediate dialog)
+
+### Improved
+- **User Experience**: Clear choice before any download happens
+- **Transparency**: User knows update will download and install automatically
+- **Control**: Users can skip updates or close dialog to decide later
+- **Efficiency**: Direct flow from download → package manager (fewer steps)
+
+### Technical
+- Removed automatic download on update detection
+- Always show dialog first for user consent
+- Auto-launch installApk() after successful download
+- Removed showInstallDialog() intermediate step
+- Simplified update flow with fewer code paths
+
 ## [2.3.10] - 2025-01-05
 
 ### Fixed

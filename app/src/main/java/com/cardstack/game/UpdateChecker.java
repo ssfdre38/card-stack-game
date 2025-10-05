@@ -143,21 +143,16 @@ public class UpdateChecker {
                 if (info.tagName.equals(downloadedVersion) && !downloadedPath.isEmpty()) {
                     File apkFile = new File(downloadedPath);
                     if (apkFile.exists() && verifyDownload(apkFile)) {
-                        // APK already downloaded and verified - show install dialog directly
-                        showInstallDialog(info, apkFile);
+                        // APK already downloaded and verified - auto-install directly
+                        Toast.makeText(context, "Update ready! Launching installer...", Toast.LENGTH_SHORT).show();
+                        installApk(apkFile);
                     } else {
-                        // Downloaded file corrupted or missing - download again
+                        // Downloaded file corrupted or missing - show dialog to download
                         showUpdateDialog(info);
                     }
                 } else {
-                    // Not downloaded yet - start automatic download (always from website)
-                    if (autoDownloadEnabled && info.downloadUrl != null && !info.downloadUrl.isEmpty()) {
-                        // Always auto-download when download URL is available (including manual checks)
-                        downloadInBackground(info);
-                    } else {
-                        // No download URL available - show dialog for manual action
-                        showUpdateDialog(info);
-                    }
+                    // Not downloaded yet - ALWAYS show dialog first for user choice
+                    showUpdateDialog(info);
                 }
             } else {
                 if (forceCheck) {
@@ -348,12 +343,13 @@ public class UpdateChecker {
                                         .putString(KEY_DOWNLOAD_HASH, calculateFileHash(outputFile))
                                         .apply();
                                     
-                                    Log.d(TAG, "Background download completed successfully");
+                                    Log.d(TAG, "Background download completed successfully - launching installer");
                                     
-                                    // Show install dialog
-                                    new Handler(Looper.getMainLooper()).post(() -> 
-                                        showInstallDialog(info, outputFile)
-                                    );
+                                    // Automatically launch package manager to install
+                                    new Handler(Looper.getMainLooper()).post(() -> {
+                                        Toast.makeText(context, "Update downloaded! Launching installer...", Toast.LENGTH_SHORT).show();
+                                        installApk(outputFile);
+                                    });
                                 } else {
                                     Log.e(TAG, "Downloaded file verification failed");
                                     new Handler(Looper.getMainLooper()).post(() -> 
@@ -482,14 +478,17 @@ public class UpdateChecker {
         String message = "A new version is available!\n\n" +
                 "Current Version: " + getCurrentVersionName() + "\n" +
                 "New Version: " + info.versionName + "\n\n" +
-                info.name;
+                info.name + "\n\n" +
+                "The update will download in the background and install when ready.";
         
         builder.setMessage(message);
         
-        // Install Now button (downloads and installs)
-        builder.setPositiveButton("Install Now", (dialog, which) -> {
+        // Download button - starts background download with auto-install
+        builder.setPositiveButton("Download", (dialog, which) -> {
             if (info.downloadUrl != null && !info.downloadUrl.isEmpty()) {
-                downloadAndInstall(info);
+                // Start background download - will auto-install when complete
+                downloadInBackground(info);
+                Toast.makeText(context, "Downloading update in background...", Toast.LENGTH_SHORT).show();
             } else {
                 // Fallback to browser download
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(info.url));
@@ -498,16 +497,16 @@ public class UpdateChecker {
             }
         });
         
-        // View Details button
-        builder.setNeutralButton("Details", (dialog, which) -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(info.url));
-            context.startActivity(intent);
-        });
-        
         // Skip This Version button
         builder.setNegativeButton("Skip", (dialog, which) -> {
             prefs.edit().putString(KEY_SKIP_VERSION, info.tagName).apply();
             Toast.makeText(context, "Update skipped. Check Settings to update later.", Toast.LENGTH_SHORT).show();
+        });
+        
+        // Close button (cancel)
+        builder.setNeutralButton("Close", (dialog, which) -> {
+            // Just close the dialog - will check again next time
+            dialog.dismiss();
         });
         
         builder.setCancelable(true);
