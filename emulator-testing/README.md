@@ -73,24 +73,63 @@ emulator-testing/
 
 ### Run Quick Test (Single Device)
 ```bash
-cd /home/ubuntu/match-mania/emulator-testing
+cd emulator-testing
 ./quick-test.sh
 ```
 
 ### Run Comprehensive Tests (All Versions)
 ```bash
-cd /home/ubuntu/match-mania/emulator-testing
+cd emulator-testing
 ./run-comprehensive-tests.sh
 ```
 
 ## Prerequisites
 
-### Required
-- Android SDK installed at `/home/ubuntu/android-sdk`
-- System images for testing versions
-- Compiled APK (auto-built if missing)
+### Platform Support
+✅ **Linux** - Tested on Ubuntu, Debian, Fedora, Arch  
+✅ **macOS** - Tested on macOS 10.15+  
+✅ **Windows** - Works via WSL2 or Git Bash  
+
+### Required Software
+- **Android SDK** - Auto-detected from common locations:
+  - Linux: `~/Android/Sdk` or `~/android-sdk`
+  - macOS: `~/Library/Android/sdk`
+  - Windows: `%LOCALAPPDATA%/Android/Sdk`
+- **System images** for testing versions (installed via setup script)
+- **Compiled APK** (auto-built if missing)
+
+### Setting Up Android SDK
+
+If Android SDK is not auto-detected, set the environment variable:
+
+**Linux/macOS:**
+```bash
+export ANDROID_SDK_ROOT=/path/to/android/sdk
+export ANDROID_HOME=$ANDROID_SDK_ROOT
+```
+
+**Windows (Git Bash/WSL):**
+```bash
+export ANDROID_SDK_ROOT="$LOCALAPPDATA/Android/Sdk"
+export ANDROID_HOME=$ANDROID_SDK_ROOT
+```
+
+Or add to your shell profile (`~/.bashrc`, `~/.zshrc`, etc.):
+```bash
+echo 'export ANDROID_SDK_ROOT=~/Android/Sdk' >> ~/.bashrc
+echo 'export ANDROID_HOME=$ANDROID_SDK_ROOT' >> ~/.bashrc
+source ~/.bashrc
+```
 
 ### Install System Images
+
+Use the provided setup script (works on all platforms):
+```bash
+cd emulator-testing
+./setup-system-images.sh
+```
+
+Or install manually:
 ```bash
 sdkmanager "system-images;android-24;google_apis;x86_64"
 sdkmanager "system-images;android-26;google_apis;x86_64"
@@ -202,6 +241,21 @@ Detailed logs saved to `logs/` directory:
 
 ## Common Issues
 
+### Android SDK Not Found
+**Error:** "Android SDK not found!"
+
+**Solution:**
+1. Install Android Studio or SDK command-line tools
+2. Set environment variable:
+   ```bash
+   # Linux/macOS
+   export ANDROID_SDK_ROOT=~/Android/Sdk
+   
+   # Windows (Git Bash)
+   export ANDROID_SDK_ROOT="$LOCALAPPDATA/Android/Sdk"
+   ```
+3. Add to shell profile for persistence
+
 ### Emulator Won't Start
 ```bash
 # Check if another emulator is running
@@ -209,6 +263,13 @@ adb devices
 
 # Kill existing emulators
 adb emu kill
+
+# On Linux: Check KVM support
+ls -l /dev/kvm
+# If missing, enable virtualization in BIOS
+
+# On macOS: Check HAXM
+kextstat | grep intel
 ```
 
 ### System Image Missing
@@ -223,15 +284,58 @@ sdkmanager "system-images;android-XX;google_apis;x86_64"
 ### APK Not Found
 ```bash
 # Build APK manually
-cd /home/ubuntu/match-mania
+cd ..  # Go to project root
 ./gradlew assembleDebug
 ```
 
 ### Permission Denied
 ```bash
 # Make scripts executable
-chmod +x run-comprehensive-tests.sh
-chmod +x quick-test.sh
+chmod +x *.sh
+```
+
+### Windows-Specific Issues
+
+**Git Bash Path Issues:**
+```bash
+# Use forward slashes, not backslashes
+export ANDROID_SDK_ROOT="C:/Android/Sdk"
+```
+
+**WSL2 Issues:**
+- Use WSL2, not WSL1 for better emulator support
+- Ensure Android SDK is installed in WSL filesystem, not Windows
+- Or mount Windows SDK: `/mnt/c/Users/YourName/AppData/Local/Android/Sdk`
+
+### macOS-Specific Issues
+
+**HAXM Not Installed:**
+```bash
+# Install Intel HAXM for faster emulation
+brew install --cask intel-haxm
+```
+
+**Permission Issues:**
+```bash
+# Grant Terminal full disk access in System Preferences
+# System Preferences > Security & Privacy > Privacy > Full Disk Access
+```
+
+### Linux-Specific Issues
+
+**KVM Not Available:**
+```bash
+# Check KVM support
+egrep -c '(vmx|svm)' /proc/cpuinfo  # Should be > 0
+
+# Install KVM
+sudo apt install qemu-kvm libvirt-daemon-system  # Ubuntu/Debian
+sudo dnf install @virtualization                   # Fedora
+sudo pacman -S qemu libvirt                       # Arch
+
+# Add user to kvm group
+sudo usermod -aG kvm $USER
+# Log out and back in
 ```
 
 ## Advanced Usage
@@ -258,7 +362,7 @@ create_avd() {
 ```bash
 #!/bin/bash
 # Run tests and exit with test result code
-cd /home/ubuntu/match-mania/emulator-testing
+cd emulator-testing
 ./run-comprehensive-tests.sh
 
 # Check results and exit accordingly

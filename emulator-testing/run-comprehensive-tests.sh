@@ -4,6 +4,7 @@
 # Match Mania - Comprehensive Automated Testing Script
 # Tests app across multiple Android versions with UI, OTA, and gameplay tests
 # Automatically captures screenshots on errors
+# Cross-platform: Works on Linux, macOS, and Windows (WSL/Git Bash)
 ################################################################################
 
 set -e  # Exit on error (will be trapped)
@@ -16,7 +17,7 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-# Directories
+# Directories (use relative paths)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 SCREENSHOTS_DIR="$SCRIPT_DIR/screenshots"
@@ -24,10 +25,84 @@ REPORTS_DIR="$SCRIPT_DIR/reports"
 LOGS_DIR="$SCRIPT_DIR/logs"
 CONFIG_FILE="$SCRIPT_DIR/configs/test-config.json"
 
-# Android SDK paths
-export ANDROID_SDK_ROOT=/home/ubuntu/android-sdk
-export ANDROID_HOME=$ANDROID_SDK_ROOT
-export PATH=$PATH:$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
+# Create required directories if they don't exist
+mkdir -p "$SCREENSHOTS_DIR" "$REPORTS_DIR" "$LOGS_DIR"
+
+# Detect platform and set Android SDK path
+detect_android_sdk() {
+    # Check if ANDROID_SDK_ROOT or ANDROID_HOME is already set
+    if [ -n "$ANDROID_SDK_ROOT" ]; then
+        echo "$ANDROID_SDK_ROOT"
+        return 0
+    elif [ -n "$ANDROID_HOME" ]; then
+        echo "$ANDROID_HOME"
+        return 0
+    fi
+    
+    # Detect platform
+    case "$(uname -s)" in
+        Linux*)
+            # Common Linux locations
+            local locations=(
+                "$HOME/Android/Sdk"
+                "$HOME/android-sdk"
+                "/usr/local/android-sdk"
+                "/opt/android-sdk"
+            )
+            ;;
+        Darwin*)
+            # macOS locations
+            local locations=(
+                "$HOME/Library/Android/sdk"
+                "$HOME/Android/Sdk"
+            )
+            ;;
+        MINGW*|MSYS*|CYGWIN*)
+            # Windows (Git Bash/MSYS2/Cygwin)
+            local locations=(
+                "$LOCALAPPDATA/Android/Sdk"
+                "$HOME/AppData/Local/Android/Sdk"
+                "C:/Android/Sdk"
+            )
+            ;;
+        *)
+            echo "Unknown platform: $(uname -s)" >&2
+            return 1
+            ;;
+    esac
+    
+    # Try to find SDK in common locations
+    for location in "${locations[@]}"; do
+        if [ -d "$location" ]; then
+            echo "$location"
+            return 0
+        fi
+    done
+    
+    echo "Android SDK not found. Please set ANDROID_SDK_ROOT or ANDROID_HOME" >&2
+    return 1
+}
+
+# Set Android SDK path
+ANDROID_SDK_ROOT=$(detect_android_sdk)
+if [ $? -ne 0 ]; then
+    echo -e "${RED}❌ Error: Android SDK not found!${NC}"
+    echo ""
+    echo "Please install Android SDK and set environment variable:"
+    echo "  export ANDROID_SDK_ROOT=/path/to/android/sdk"
+    echo ""
+    echo "Common locations:"
+    echo "  Linux:   ~/Android/Sdk"
+    echo "  macOS:   ~/Library/Android/sdk"
+    echo "  Windows: %LOCALAPPDATA%/Android/Sdk"
+    echo ""
+    echo "Download from: https://developer.android.com/studio"
+    exit 1
+fi
+
+export ANDROID_SDK_ROOT
+export ANDROID_HOME="$ANDROID_SDK_ROOT"
+export PATH="$PATH:$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin"
 
 # Test settings
 APP_PACKAGE="com.matchmania.game"
@@ -578,9 +653,18 @@ main() {
     log "Screenshots: $SCREENSHOTS_DIR"
     log "Logs: $SESSION_LOG"
     
-    # Open report if possible
+    # Open report if possible (cross-platform)
     if command -v xdg-open > /dev/null 2>&1; then
+        # Linux
         xdg-open "$SESSION_REPORT" 2>/dev/null &
+    elif command -v open > /dev/null 2>&1; then
+        # macOS
+        open "$SESSION_REPORT" 2>/dev/null &
+    elif command -v start > /dev/null 2>&1; then
+        # Windows (Git Bash/WSL)
+        start "$SESSION_REPORT" 2>/dev/null &
+    else
+        log_info "Open manually: $SESSION_REPORT"
     fi
 }
 
