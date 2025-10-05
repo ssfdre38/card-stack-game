@@ -112,6 +112,79 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# Detect Linux package manager
+detect_package_manager() {
+    if command_exists apt-get || command_exists apt; then
+        echo "apt"
+    elif command_exists dnf; then
+        echo "dnf"
+    elif command_exists yum; then
+        echo "yum"
+    elif command_exists pacman; then
+        echo "pacman"
+    elif command_exists zypper; then
+        echo "zypper"
+    else
+        echo "unknown"
+    fi
+}
+
+# Auto-install missing tools on Linux
+auto_install_tools() {
+    local platform=$1
+    local missing_tools=("$@")
+    shift  # Remove platform from args
+    
+    if [ "$platform" != "linux" ]; then
+        return 1
+    fi
+    
+    local pkg_manager=$(detect_package_manager)
+    
+    if [ "$pkg_manager" = "unknown" ]; then
+        print_warning "Could not detect package manager for automatic installation"
+        return 1
+    fi
+    
+    print_info "Detected package manager: $pkg_manager"
+    echo ""
+    read -p "Automatically install missing tools? (Y/n): " -n 1 -r
+    echo ""
+    
+    if [[ ! $REPLY =~ ^[Yy]$ ]] && [ -n "$REPLY" ]; then
+        return 1
+    fi
+    
+    print_info "Installing required tools..."
+    
+    case "$pkg_manager" in
+        apt)
+            sudo apt update && \
+            sudo apt install -y curl wget unzip openjdk-11-jdk 2>&1 | tail -5
+            ;;
+        dnf)
+            sudo dnf install -y curl wget unzip java-11-openjdk-devel 2>&1 | tail -5
+            ;;
+        yum)
+            sudo yum install -y curl wget unzip java-11-openjdk-devel 2>&1 | tail -5
+            ;;
+        pacman)
+            sudo pacman -Sy --noconfirm curl wget unzip jdk-openjdk 2>&1 | tail -5
+            ;;
+        zypper)
+            sudo zypper install -y curl wget unzip java-11-openjdk-devel 2>&1 | tail -5
+            ;;
+    esac
+    
+    if [ $? -eq 0 ]; then
+        print_success "Tools installed successfully"
+        return 0
+    else
+        print_error "Installation failed"
+        return 1
+    fi
+}
+
 # Check system requirements
 check_requirements() {
     local platform=$1
@@ -135,22 +208,68 @@ check_requirements() {
     fi
     
     if [ ${#missing_tools[@]} -gt 0 ]; then
-        print_error "Missing required tools: ${missing_tools[*]}"
+        print_warning "Missing required tools: ${missing_tools[*]}"
         echo ""
-        echo "Please install the missing tools:"
+        
+        # Try automatic installation on Linux
+        if [ "$platform" = "linux" ]; then
+            if auto_install_tools "$platform" "${missing_tools[@]}"; then
+                # Re-check after installation
+                if command_exists curl || command_exists wget; then
+                    if command_exists unzip; then
+                        if command_exists java; then
+                            print_success "All required tools are now installed"
+                            return 0
+                        fi
+                    fi
+                fi
+            fi
+        fi
+        
+        # If auto-install failed or not on Linux, show manual instructions
+        print_error "Please install the missing tools manually:"
         echo ""
         
         case "$platform" in
             linux)
-                echo "  Ubuntu/Debian:"
-                echo "    sudo apt update"
-                echo "    sudo apt install -y curl unzip openjdk-11-jdk"
-                echo ""
-                echo "  Fedora:"
-                echo "    sudo dnf install -y curl unzip java-11-openjdk-devel"
-                echo ""
-                echo "  Arch:"
-                echo "    sudo pacman -S curl unzip jdk-openjdk"
+                local pkg_manager=$(detect_package_manager)
+                case "$pkg_manager" in
+                    apt)
+                        echo "  Ubuntu/Debian:"
+                        echo "    sudo apt update"
+                        echo "    sudo apt install -y curl unzip openjdk-11-jdk"
+                        ;;
+                    dnf)
+                        echo "  Fedora/RHEL 8+:"
+                        echo "    sudo dnf install -y curl unzip java-11-openjdk-devel"
+                        ;;
+                    yum)
+                        echo "  CentOS/RHEL 7:"
+                        echo "    sudo yum install -y curl unzip java-11-openjdk-devel"
+                        ;;
+                    pacman)
+                        echo "  Arch/Manjaro:"
+                        echo "    sudo pacman -Sy curl unzip jdk-openjdk"
+                        ;;
+                    zypper)
+                        echo "  openSUSE:"
+                        echo "    sudo zypper install curl unzip java-11-openjdk-devel"
+                        ;;
+                    *)
+                        echo "  Ubuntu/Debian:"
+                        echo "    sudo apt update"
+                        echo "    sudo apt install -y curl unzip openjdk-11-jdk"
+                        echo ""
+                        echo "  Fedora/RHEL:"
+                        echo "    sudo dnf install -y curl unzip java-11-openjdk-devel"
+                        echo ""
+                        echo "  Arch/Manjaro:"
+                        echo "    sudo pacman -Sy curl unzip jdk-openjdk"
+                        echo ""
+                        echo "  openSUSE:"
+                        echo "    sudo zypper install curl unzip java-11-openjdk-devel"
+                        ;;
+                esac
                 ;;
             mac)
                 echo "  Using Homebrew:"

@@ -124,10 +124,17 @@ The scripts will check for and guide you to install:
 - `unzip` (for extracting files)
 - `java` (JDK 8 or higher)
 
-**Installation instructions provided automatically for:**
-- Ubuntu/Debian: `apt install`
-- Fedora: `dnf install`
-- Arch: `pacman -S`
+**Automatic Installation on Linux!**
+The install script automatically detects your package manager and offers to install missing tools:
+- ✅ **apt** (Ubuntu, Debian, Linux Mint)
+- ✅ **dnf** (Fedora, RHEL 8+, CentOS Stream)
+- ✅ **yum** (CentOS 7, RHEL 7)
+- ✅ **pacman** (Arch, Manjaro, EndeavourOS)
+- ✅ **zypper** (openSUSE, SUSE Linux Enterprise)
+
+Just press 'Y' when prompted and the script installs everything automatically!
+
+**Manual installation instructions provided for:**
 - macOS: `brew install`
 - Windows: Download links provided
 
