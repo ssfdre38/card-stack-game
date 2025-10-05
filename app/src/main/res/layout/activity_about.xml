@@ -244,7 +244,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Build: January 2025\nMin SDK: Android 7.0 (API 24)\nTarget SDK: Android 14 (API 34)"
+            android:text="Build: October 5, 2025\nMin SDK: Android 7.0 (API 24)\nTarget SDK: Android 14 (API 34)"
             android:textSize="11sp"
             android:textColor="#777"
             android:paddingBottom="32dp"
