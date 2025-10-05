@@ -117,14 +117,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:paddingBottom="16dp">
+        android:paddingBottom="8dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:paddingEnd="32dp">
+            android:paddingEnd="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -136,8 +136,8 @@
 
             <com.cardstack.game.CardView
                 android:id="@+id/topCardView"
-                android:layout_width="120dp"
-                android:layout_height="180dp"
+                android:layout_width="100dp"
+                android:layout_height="150dp"
                 android:elevation="4dp" />
         </LinearLayout>
 
@@ -173,8 +173,8 @@
         android:textSize="16sp"
         android:textColor="#eee"
         android:gravity="center"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp" />
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp" />
 
     <HorizontalScrollView
         android:layout_width="match_parent"
