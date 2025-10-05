@@ -88,15 +88,39 @@ ANDROID_SDK_ROOT=$(detect_android_sdk)
 if [ $? -ne 0 ]; then
     echo -e "${RED}❌ Error: Android SDK not found!${NC}"
     echo ""
-    echo "Please install Android SDK and set environment variable:"
-    echo "  export ANDROID_SDK_ROOT=/path/to/android/sdk"
+    echo "Would you like to automatically install Android SDK?"
     echo ""
-    echo "Common locations:"
+    read -p "Install Android SDK now? (Y/n): " -n 1 -r
+    echo ""
+    
+    if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+        if [ -f "$SCRIPT_DIR/install-android-sdk.sh" ]; then
+            bash "$SCRIPT_DIR/install-android-sdk.sh"
+            if [ $? -eq 0 ]; then
+                echo ""
+                echo -e "${GREEN}✓ SDK installed! Please restart this script.${NC}"
+                echo "  Run: ./run-comprehensive-tests.sh"
+                exit 0
+            else
+                echo -e "${RED}❌ SDK installation failed!${NC}"
+                exit 1
+            fi
+        else
+            echo -e "${RED}❌ Error: install-android-sdk.sh not found!${NC}"
+            echo "Please download from: https://github.com/ssfdre38/match-mania"
+            exit 1
+        fi
+    fi
+    
+    echo ""
+    echo "Manual installation:"
+    echo "  1. Download from: https://developer.android.com/studio"
+    echo "  2. Or run: ./install-android-sdk.sh"
+    echo ""
+    echo "Common SDK locations:"
     echo "  Linux:   ~/Android/Sdk"
     echo "  macOS:   ~/Library/Android/sdk"
     echo "  Windows: %LOCALAPPDATA%/Android/Sdk"
-    echo ""
-    echo "Download from: https://developer.android.com/studio"
     exit 1
 fi
 

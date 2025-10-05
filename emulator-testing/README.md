@@ -71,6 +71,28 @@ emulator-testing/
 
 ## Quick Start
 
+### 🚀 Easiest Way (Fully Automated)
+```bash
+cd emulator-testing
+
+# If Android SDK is not installed, the scripts will offer to install it automatically!
+./setup-system-images.sh
+./run-comprehensive-tests.sh
+```
+
+**That's it!** The scripts will:
+1. Detect if Android SDK is installed
+2. Offer to install it automatically if missing
+3. Install required system images
+4. Run all tests
+
+### Manual SDK Installation (Optional)
+If you prefer to install the SDK manually first:
+```bash
+cd emulator-testing
+./install-android-sdk.sh
+```
+
 ### Run Quick Test (Single Device)
 ```bash
 cd emulator-testing
@@ -90,15 +112,46 @@ cd emulator-testing
 ✅ **macOS** - Tested on macOS 10.15+  
 ✅ **Windows** - Works via WSL2 or Git Bash  
 
-### Required Software
-- **Android SDK** - Auto-detected from common locations:
-  - Linux: `~/Android/Sdk` or `~/android-sdk`
-  - macOS: `~/Library/Android/sdk`
-  - Windows: `%LOCALAPPDATA%/Android/Sdk`
-- **System images** for testing versions (installed via setup script)
-- **Compiled APK** (auto-built if missing)
+### Automatic Installation Available! 🎉
+**No manual setup required!** The testing scripts can automatically install everything needed:
+- ✅ **Android SDK** - Automatically installed if not found
+- ✅ **System images** - Installed via `setup-system-images.sh`
+- ✅ **Essential tools** - Platform-tools, build-tools, emulator
+
+### System Requirements
+The scripts will check for and guide you to install:
+- `curl` or `wget` (for downloading)
+- `unzip` (for extracting files)
+- `java` (JDK 8 or higher)
+
+**Installation instructions provided automatically for:**
+- Ubuntu/Debian: `apt install`
+- Fedora: `dnf install`
+- Arch: `pacman -S`
+- macOS: `brew install`
+- Windows: Download links provided
 
 ### Setting Up Android SDK
+
+#### Option 1: Automatic Installation (Recommended) 🎉
+
+The easiest way! Run the installer script:
+```bash
+cd emulator-testing
+./install-android-sdk.sh
+```
+
+**What it does:**
+- ✅ Detects your platform (Linux/macOS/Windows)
+- ✅ Downloads Android SDK command-line tools (~150 MB)
+- ✅ Installs to the correct location for your OS
+- ✅ Installs essential components (platform-tools, build-tools, emulator)
+- ✅ Adds environment variables to your shell profile
+- ✅ Accepts licenses automatically
+
+**Or even easier:** Just run `./setup-system-images.sh` or `./run-comprehensive-tests.sh` and they will offer to install the SDK if it's missing!
+
+#### Option 2: Manual Installation
 
 If Android SDK is not auto-detected, set the environment variable:
 
@@ -120,6 +173,10 @@ echo 'export ANDROID_SDK_ROOT=~/Android/Sdk' >> ~/.bashrc
 echo 'export ANDROID_HOME=$ANDROID_SDK_ROOT' >> ~/.bashrc
 source ~/.bashrc
 ```
+
+**Download manually:**
+- Android Studio: https://developer.android.com/studio
+- Command-line tools only: https://developer.android.com/studio#command-tools
 
 ### Install System Images
 
