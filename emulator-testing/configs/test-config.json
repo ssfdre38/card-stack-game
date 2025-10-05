@@ -1,0 +1,126 @@
+{
+  "test_suite": {
+    "name": "Match Mania Comprehensive Test Suite",
+    "version": "1.0",
+    "app_package": "com.matchmania.game",
+    "app_activity": "com.cardstack.game.MainActivity",
+    "min_sdk": 24,
+    "target_sdk": 34
+  },
+  "android_versions": [
+    {
+      "api_level": 24,
+      "version": "7.0",
+      "name": "Nougat",
+      "system_image": "system-images;android-24;google_apis;x86_64",
+      "enabled": true
+    },
+    {
+      "api_level": 26,
+      "version": "8.0",
+      "name": "Oreo",
+      "system_image": "system-images;android-26;google_apis;x86_64",
+      "enabled": true
+    },
+    {
+      "api_level": 28,
+      "version": "9.0",
+      "name": "Pie",
+      "system_image": "system-images;android-28;google_apis;x86_64",
+      "enabled": true
+    },
+    {
+      "api_level": 30,
+      "version": "11",
+      "name": "R",
+      "system_image": "system-images;android-30;google_apis;x86_64",
+      "enabled": true
+    },
+    {
+      "api_level": 33,
+      "version": "13",
+      "name": "Tiramisu",
+      "system_image": "system-images;android-33;google_apis;x86_64",
+      "enabled": true
+    }
+  ],
+  "device_configs": [
+    {
+      "name": "Small Phone",
+      "resolution": "480x854",
+      "density": "240",
+      "ram": "1024"
+    },
+    {
+      "name": "Medium Phone",
+      "resolution": "720x1280",
+      "density": "320",
+      "ram": "2048"
+    },
+    {
+      "name": "Large Phone",
+      "resolution": "1080x2280",
+      "density": "440",
+      "ram": "2048"
+    },
+    {
+      "name": "Tablet",
+      "resolution": "1200x1920",
+      "density": "320",
+      "ram": "2048"
+    }
+  ],
+  "test_categories": {
+    "ui_tests": {
+      "enabled": true,
+      "tests": [
+        "launch_app",
+        "check_all_ui_elements",
+        "portrait_layout",
+        "landscape_layout",
+        "rotation_test",
+        "button_clicks",
+        "card_interaction"
+      ]
+    },
+    "gameplay_tests": {
+      "enabled": true,
+      "tests": [
+        "draw_card",
+        "play_card",
+        "new_game",
+        "game_state_persistence",
+        "ai_turns"
+      ]
+    },
+    "ota_tests": {
+      "enabled": true,
+      "tests": [
+        "check_for_updates",
+        "version_display",
+        "update_notification",
+        "settings_access"
+      ]
+    },
+    "performance_tests": {
+      "enabled": true,
+      "tests": [
+        "app_startup_time",
+        "memory_usage",
+        "no_crashes"
+      ]
+    }
+  },
+  "screenshot_on": {
+    "error": true,
+    "test_start": false,
+    "test_end": true,
+    "key_actions": true
+  },
+  "timeout_settings": {
+    "emulator_boot": 120,
+    "app_launch": 30,
+    "ui_action": 10,
+    "test_timeout": 300
+  }
+}
