@@ -150,10 +150,12 @@ public class UpdateChecker {
                         showUpdateDialog(info);
                     }
                 } else {
-                    // Not downloaded yet - start automatic download if enabled
-                    if (autoDownloadEnabled && !forceCheck && info.downloadUrl != null) {
+                    // Not downloaded yet - start automatic download (always from website)
+                    if (autoDownloadEnabled && info.downloadUrl != null && !info.downloadUrl.isEmpty()) {
+                        // Always auto-download when download URL is available (including manual checks)
                         downloadInBackground(info);
                     } else {
+                        // No download URL available - show dialog for manual action
                         showUpdateDialog(info);
                     }
                 }
@@ -191,8 +193,10 @@ public class UpdateChecker {
                 info.versionName = info.tagName.replace("v", "");
                 info.name = json.optString("name", "New Version");
                 info.body = json.optString("changelog", "");
-                info.url = json.optString("website_url", "https://matchmaina.ssfdre38.xyz");
                 info.downloadUrl = json.optString("download_url", "");
+                // Use GitHub release URL for details page, or website as fallback
+                String githubUrl = json.optString("github_url", "");
+                info.url = !githubUrl.isEmpty() ? githubUrl : json.optString("website_url", "https://matchmaina.ssfdre38.xyz");
                 info.versionCode = extractVersionCode(info.versionName);
                 
                 Log.d(TAG, "Successfully retrieved update info from website: " + info.versionName);

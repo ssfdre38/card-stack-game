@@ -19,6 +19,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.3.9] - 2025-01-05
+
+### Added
+- **Always Auto-Download**: OTA updates now auto-download even on manual checks
+- **Enhanced Website Priority**: Website is now the primary download source with GitHub as fallback
+- **Improved Update Experience**: Background downloads work for both automatic and manual update checks
+
+### Changed
+- **OTA System**: Manual "Check for Updates" now triggers automatic background download
+- **Download Validation**: Enhanced URL validation to prevent empty download URLs
+- **Details Button**: Now properly opens GitHub release page when available
+- **Release Process**: Automated release script enhanced with proper API JSON generation
+
+### Fixed
+- **Download URL Priority**: Website downloads now properly prioritized over GitHub
+- **Manual Check Flow**: Manual update checks now behave same as automatic checks
+- **API Format**: Website API now includes github_url for proper navigation
+
+### Technical
+- Removed `!forceCheck` condition from auto-download logic
+- Added `.isEmpty()` validation for download URL checking
+- Enhanced `checkWebsiteAPI()` to parse github_url field
+- Updated release script to generate complete API JSON format
+- Improved GitHub release notes to emphasize website as primary source
+
+### Documentation
+- Added comprehensive OTA system documentation
+- Created priority and fallback flow diagrams
+- Added release process integration guide
+- Created quick reference cards for developers
+
 ## [2.3.8] - 2025-01-04
 
 ### Fixed

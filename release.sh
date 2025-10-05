@@ -91,21 +91,34 @@ update_website_api() {
     local changelog=$3
     local release_date=$(date +%Y-%m-%d)
     
+    # Get version code from build.gradle
+    local version_code=$(grep 'versionCode' "$BUILD_GRADLE" | head -1 | sed 's/.*versionCode \(.*\)/\1/' | tr -d ' ')
+    
     # Escape changelog for JSON
     local changelog_json=$(echo "$changelog" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip()))')
+    
+    # Format file size
+    local file_size="${apk_size}.0"
     
     sudo bash -c "cat > $WEBSITE_DIR/api/latest-version.json" << EOF
 {
   "version": "v$version",
   "name": "Match Mania v$version",
   "changelog": $changelog_json,
-  "website_url": "https://matchmaina.ssfdre38.xyz",
   "download_url": "https://matchmaina.ssfdre38.xyz/downloads/MatchMania-release-v$version.apk",
-  "release_date": "$release_date",
-  "min_android_version": "5.0",
-  "size_mb": $apk_size
+  "github_url": "https://github.com/ssfdre38/match-mania/releases/tag/v$version",
+  "website_url": "https://matchmaina.ssfdre38.xyz",
+  "versionCode": $version_code,
+  "releaseDate": "$release_date",
+  "fileSize": "${file_size} MB",
+  "minAndroidVersion": "7.0",
+  "minApiLevel": 24
 }
 EOF
+    
+    # Set proper permissions
+    sudo chown www-data:www-data "$WEBSITE_DIR/api/latest-version.json"
+    sudo chmod 644 "$WEBSITE_DIR/api/latest-version.json"
     
     print_success "Updated website API JSON"
 }
@@ -205,23 +218,37 @@ create_github_release() {
 
 $changelog
 
-### Website
-Visit the official website for direct downloads, complete changelog, and documentation:
-**🔗 https://matchmaina.ssfdre38.xyz**
+---
 
-### Downloads
-- **Recommended**: Download from the [official website](https://matchmaina.ssfdre38.xyz#downloads)
-- **Alternative**: Download from this GitHub release below
+### 📥 Downloads
 
-### Installation
-1. Download the APK file
+**Primary (Recommended):** Download from the official website for the latest version with automatic updates:
+- **🌐 [Download from Website](https://matchmaina.ssfdre38.xyz#downloads)** ← Recommended
+- Includes automatic OTA update system
+- Direct download from our servers
+
+**Alternative:** Download from GitHub (fallback):
+- Download the APK from the Assets section below
+- Manual updates only
+
+---
+
+### 📱 Installation
+
+1. Download the APK file (website recommended)
 2. Enable 'Install from Unknown Sources' in your Android settings
 3. Install the APK
 4. Enjoy Match Mania!
 
+### 🔄 Automatic Updates
+
+When you download from the website, the app will automatically check for updates and download them in the background. You'll get a notification when an update is ready to install!
+
 ---
 
-**Full Changelog**: https://matchmaina.ssfdre38.xyz#changelog"
+**Website**: https://matchmaina.ssfdre38.xyz  
+**Full Changelog**: https://matchmaina.ssfdre38.xyz#changelog  
+**Documentation**: https://matchmaina.ssfdre38.xyz/wiki/"
     
     gh release create "v$version" \
         --title "Match Mania v$version" \
