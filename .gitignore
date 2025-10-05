@@ -32,3 +32,4 @@ captures/
 # Keystore files
 *.jks
 *.keystore
+chat-history/

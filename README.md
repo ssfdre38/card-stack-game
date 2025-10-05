@@ -281,7 +281,6 @@ Organized documentation in the [docs/](docs/) directory:
 
 - 📋 [CHANGELOG.md](CHANGELOG.md) - Complete version history
 - 🧪 [Testing System](emulator-testing/README.md) - Automated testing framework
-- 📖 [Session History](chat-history/) - Development session summaries
 - ⚖️ [Copyright Info](emulator-testing/COPYRIGHT.md) - Third-party attributions
 - 🤝 [Contributing Guidelines](CONTRIBUTING.md) - How to contribute
 - 🔒 [Security Policy](SECURITY.md) - Security guidelines
