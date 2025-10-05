@@ -200,13 +200,13 @@ public class MainActivity extends AppCompatActivity {
         boolean isTablet = smallestWidthDp >= 600;
         
         int maxCardWidth = isTablet ? 
-            (int)(getResources().getDisplayMetrics().density * 180) : // 180dp max for tablets (increased from 140)
+            (int)(getResources().getDisplayMetrics().density * 240) : // 240dp max for tablets - MUCH wider!
             (int)(getResources().getDisplayMetrics().density * 100);  // 100dp max for phones
-        int minCardWidth = (int)(getResources().getDisplayMetrics().density * 80);  // 80dp min (increased from 70)
+        int minCardWidth = (int)(getResources().getDisplayMetrics().density * 80);  // 80dp min
         
-        // Calculate card width: tablets show fewer, wider cards
-        // Phones show ~6 cards, tablets show ~3-4 cards for maximum width
-        int cardDivider = isTablet ? 3 : 6;  // Changed from 4 to 3 for tablets
+        // Calculate card width: tablets show fewer, WIDER cards
+        // Phones show ~6 cards, tablets show ~2-3 cards for MAXIMUM width
+        int cardDivider = isTablet ? 2 : 6;  // Changed to 2 for tablets - shows 2-3 WIDE cards!
         int cardWidth = Math.max(minCardWidth, Math.min(maxCardWidth, availableWidth / cardDivider));
         int cardHeight = (int)(cardWidth * 1.5); // Maintain 2:3 aspect ratio
         
