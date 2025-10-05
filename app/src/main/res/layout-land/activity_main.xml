@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Landscape layout for Match Mania -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="#1a1a2e">
+
+    <!-- Left side: Game area -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingEnd="8dp">
+
+        <!-- Header with title and buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="4dp">
+
+            <TextView
+                android:id="@+id/titleView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Card Stack"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#eee"
+                android:gravity="center_vertical"
+                android:paddingBottom="4dp" />
+
+            <Button
+                android:id="@+id/profileButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="👤"
+                android:textSize="16sp"
+                android:backgroundTint="#16213e"
+                android:gravity="center"
+                android:layout_marginEnd="3dp" />
+
+            <Button
+                android:id="@+id/statsButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="📊"
+                android:textSize="16sp"
+                android:backgroundTint="#16213e"
+                android:gravity="center"
+                android:layout_marginEnd="3dp" />
+
+            <Button
+                android:id="@+id/aboutButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="ℹ"
+                android:textSize="16sp"
+                android:backgroundTint="#16213e"
+                android:gravity="center"
+                android:layout_marginEnd="3dp" />
+
+            <Button
+                android:id="@+id/settingsButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="⚙"
+                android:textSize="16sp"
+                android:backgroundTint="#16213e"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- Current player info -->
+        <TextView
+            android:id="@+id/currentPlayerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Player: You"
+            android:textSize="14sp"
+            android:textColor="#eee"
+            android:gravity="center"
+            android:paddingBottom="4dp" />
+
+        <!-- AI Players info -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingBottom="4dp">
+
+            <TextView
+                android:id="@+id/player1CardsView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="AI 1: 7 cards"
+                android:textSize="12sp"
+                android:textColor="#eee"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/player2CardsView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="AI 2: 7 cards"
+                android:textSize="12sp"
+                android:textColor="#eee"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/player3CardsView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="AI 3: 7 cards"
+                android:textSize="12sp"
+                android:textColor="#eee"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- Game play area (top card and deck) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingBottom="4dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingEnd="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Top Card"
+                    android:textSize="12sp"
+                    android:textColor="#eee"
+                    android:paddingBottom="4dp" />
+
+                <com.cardstack.game.CardView
+                    android:id="@+id/topCardView"
+                    android:layout_width="80dp"
+                    android:layout_height="120dp"
+                    android:elevation="4dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/deckCountView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deck: 52"
+                    android:textSize="12sp"
+                    android:textColor="#eee"
+                    android:paddingBottom="4dp" />
+
+                <Button
+                    android:id="@+id/drawButton"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Draw Card"
+                    android:textSize="12sp"
+                    android:backgroundTint="#0f3460" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- New Game button -->
+        <Button
+            android:id="@+id/newGameButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Game"
+            android:textSize="14sp"
+            android:backgroundTint="#16213e" />
+    </LinearLayout>
+
+    <!-- Right side: Player cards -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.2"
+        android:orientation="vertical"
+        android:paddingStart="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your Cards"
+            android:textSize="14sp"
+            android:textColor="#eee"
+            android:gravity="center"
+            android:paddingBottom="4dp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/playerHandLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp" />
+        </HorizontalScrollView>
+    </LinearLayout>
+
+</LinearLayout>
