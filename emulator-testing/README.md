@@ -317,3 +317,54 @@ For issues or questions:
 ---
 
 © 2025 Match Mania Testing System
+
+---
+
+## Copyright and Attribution
+
+### Match Mania Testing System
+
+**Copyright:** © 2025 Daniel Elliott  
+**License:** MIT License  
+**Repository:** https://github.com/ssfdre38/match-mania
+
+### Third-Party Software
+
+This testing system uses the following third-party software and tools:
+
+#### Android SDK Tools
+- **Copyright:** © Google LLC
+- **License:** Android Software Development Kit License Agreement
+- **Components:** Android Emulator, adb, avdmanager, sdkmanager, System Images
+- **Website:** https://developer.android.com/studio
+- **License Terms:** https://developer.android.com/studio/terms
+
+#### Android Open Source Project
+- **Copyright:** © Google LLC and The Android Open Source Project
+- **License:** Apache License 2.0
+- **Components:** Android OS System Images (API 24, 26, 28, 30, 33)
+- **Website:** https://source.android.com
+
+#### Other Tools
+- **Bash Shell:** © Free Software Foundation (GNU GPL v3)
+- **Python:** © Python Software Foundation (PSF License)
+- **GNU Utilities:** © Free Software Foundation (GNU GPL)
+
+### Trademark Notice
+
+Android is a trademark of Google LLC. All trademarks and registered trademarks are the property of their respective owners.
+
+### Disclaimer
+
+This testing system is independent software created for testing the Match Mania application. It is not affiliated with, endorsed by, or sponsored by Google LLC or The Android Open Source Project.
+
+The testing system uses publicly available Android SDK tools in accordance with their respective licenses for the purpose of testing and quality assurance.
+
+### Full Copyright Information
+
+For complete copyright and attribution details, see [COPYRIGHT.md](COPYRIGHT.md)
+
+---
+
+**Last Updated:** October 5, 2025  
+© 2025 Daniel Elliott. All rights reserved.
