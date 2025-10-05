@@ -35,10 +35,20 @@
             android:id="@+id/versionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Version 2.0.2"
+            android:text="Version 2.3.9"
             android:textSize="16sp"
             android:textColor="#aaa"
-            android:paddingBottom="24dp" />
+            android:paddingBottom="4dp" />
+
+        <!-- Website -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="matchmaina.ssfdre38.xyz"
+            android:textSize="14sp"
+            android:textColor="#4CAF50"
+            android:paddingBottom="24dp"
+            android:autoLink="web" />
 
         <!-- Description -->
         <TextView
@@ -223,7 +233,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="For support, feature requests, or bug reports:\n\nGitHub: github.com/ssfdre38/match-mania\nIssues: github.com/ssfdre38/match-mania/issues\nEmail: ssfdre38@gmail.com"
+            android:text="For support, feature requests, or bug reports:\n\nWebsite: matchmaina.ssfdre38.xyz\nGitHub: github.com/ssfdre38/match-mania\nIssues: github.com/ssfdre38/match-mania/issues\nEmail: ssfdre38@gmail.com"
             android:textSize="14sp"
             android:textColor="#ccc"
             android:paddingBottom="24dp"
@@ -234,7 +244,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Build: October 2024\nMin SDK: Android 7.0 (API 24)\nTarget SDK: Android 14 (API 34)"
+            android:text="Build: January 2025\nMin SDK: Android 7.0 (API 24)\nTarget SDK: Android 14 (API 34)"
             android:textSize="11sp"
             android:textColor="#777"
             android:paddingBottom="32dp"

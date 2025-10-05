@@ -19,6 +19,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
+## [2.3.10] - 2025-01-05
+
+### Fixed
+- **Tablet Card Display**: Significantly wider cards on tablets (180dp max, divider=3)
+- **Screen Utilization**: Cards now properly utilize tablet screen width
+- **Card Readability**: Improved readability with larger card display on tablets
+- Cards on tablets now show 3-4 wide cards instead of 4-5 narrow cards
+
+### Changed
+- **About Page**: Updated to show v2.3.9 and current build information
+- **Website Link**: Added clickable website URL (matchmaina.ssfdre38.xyz) to About page
+- **Support Info**: Website now listed as primary support channel
+- **Build Date**: Updated to January 2025
+
+### Technical
+- Increased tablet max card width from 140dp to 180dp (29% wider)
+- Changed tablet card divider from 4 to 3 for better screen usage
+- Increased minimum card width from 70dp to 80dp
+- Updated About page with dynamic version display and website integration
+- Phone card display remains unchanged (optimized for smaller screens)
+
 ## [2.3.9] - 2025-01-05
 
 ### Added
