@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Achievements system expansion
 - Tutorial mode for new players
 
-## [2.3.14] - 2025-01-05
+## [2.3.14] - 2025-10-05
 
 ### Fixed
 - **Phone Portrait Layout**: Fixed critical issue where player cards and New Game button extended below screen on phones

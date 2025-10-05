@@ -235,6 +235,6 @@ Players now have complete freedom to play in their preferred orientation!
 
 ---
 
-**Date:** January 5, 2025  
+**Date:** October 5, 2025  
 **Version:** 2.3.13  
 **Status:** Complete and Tested
