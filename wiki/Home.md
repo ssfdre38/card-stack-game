@@ -66,4 +66,4 @@ We welcome contributions! Please see our [Contributing Guide](Contributing) for 
 ---
 
 **Last Updated**: October 2025  
-**Current Version: v2.3.16
+**Current Version: v2.3.17

@@ -10,8 +10,8 @@ android {
         applicationId "com.matchmania.game"
         minSdk 24
         targetSdk 34
-        versionCode 34
-        versionName "2.3.16"
+        versionCode 35
+        versionName "2.3.17"
     }
 
     signingConfigs {
