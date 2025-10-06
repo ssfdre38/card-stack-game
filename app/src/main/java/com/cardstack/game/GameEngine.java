@@ -123,7 +123,7 @@ public class GameEngine {
                 }
                 break;
             case DRAW_TWO:
-                if (settings.isProgressiveUnoEnabled() && progressiveDrawStack >= 0) {
+                if (settings.isProgressiveDrawEnabled() && progressiveDrawStack >= 0) {
                     // Progressive Draw Stacking: Stack the draw count
                     progressiveDrawStack += 2;
                     stackedCardType = Card.Type.DRAW_TWO;
@@ -135,7 +135,7 @@ public class GameEngine {
                 }
                 break;
             case WILD_DRAW_FOUR:
-                if (settings.isProgressiveUnoEnabled() && progressiveDrawStack >= 0) {
+                if (settings.isProgressiveDrawEnabled() && progressiveDrawStack >= 0) {
                     // Progressive Draw Stacking: Stack the draw count
                     progressiveDrawStack += 4;
                     stackedCardType = Card.Type.WILD_DRAW_FOUR;

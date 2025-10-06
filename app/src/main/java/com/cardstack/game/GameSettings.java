@@ -77,12 +77,12 @@ public class GameSettings {
         prefs.edit().putBoolean(KEY_SEVEN_ZERO_RULE, enabled).apply();
     }
     
-    // Progressive Uno (Draw cards stack)
-    public boolean isProgressiveUnoEnabled() {
+    // Progressive Draw (Draw cards stack)
+    public boolean isProgressiveDrawEnabled() {
         return prefs.getBoolean(KEY_PROGRESSIVE_UNO, DEFAULT_PROGRESSIVE);
     }
     
-    public void setProgressiveUnoEnabled(boolean enabled) {
+    public void setProgressiveDrawEnabled(boolean enabled) {
         prefs.edit().putBoolean(KEY_PROGRESSIVE_UNO, enabled).apply();
     }
     

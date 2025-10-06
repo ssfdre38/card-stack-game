@@ -70,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
         drawOnNoPlaySwitch.setChecked(settings.isDrawOnNoPlayEnabled());
         jumpInSwitch.setChecked(settings.isJumpInEnabled());
         sevenZeroSwitch.setChecked(settings.isSevenZeroRuleEnabled());
-        progressiveSwitch.setChecked(settings.isProgressiveUnoEnabled());
+        progressiveSwitch.setChecked(settings.isProgressiveDrawEnabled());
         forcePlaySwitch.setChecked(settings.isForcePlayEnabled());
         challengeDrawFourSwitch.setChecked(settings.isChallengeDrawFourEnabled());
         drawToMatchSwitch.setChecked(settings.isDrawToMatchEnabled());
@@ -117,7 +117,7 @@ public class SettingsActivity extends AppCompatActivity {
         settings.setDrawOnNoPlayEnabled(drawOnNoPlaySwitch.isChecked());
         settings.setJumpInEnabled(jumpInSwitch.isChecked());
         settings.setSevenZeroRuleEnabled(sevenZeroSwitch.isChecked());
-        settings.setProgressiveUnoEnabled(progressiveSwitch.isChecked());
+        settings.setProgressiveDrawEnabled(progressiveSwitch.isChecked());
         settings.setForcePlayEnabled(forcePlaySwitch.isChecked());
         settings.setChallengeDrawFourEnabled(challengeDrawFourSwitch.isChecked());
         settings.setDrawToMatchEnabled(drawToMatchSwitch.isChecked());
