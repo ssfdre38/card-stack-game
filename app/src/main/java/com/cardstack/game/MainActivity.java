@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -79,6 +80,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         drawButton.setOnClickListener(v -> {
+            // Check if drawing is allowed based on Force Play and Draw on No Play settings
+            if (!gameEngine.isDrawAllowed()) {
+                if (settings.isForcePlayEnabled()) {
+                    Toast.makeText(this, "Force Play: You must play a card!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Draw on No Play is disabled - turn skipped", Toast.LENGTH_SHORT).show();
+                    gameEngine.nextPlayer();
+                    updateUI();
+                    processAITurns();
+                }
+                return;
+            }
+
             if (settings.isDrawToMatchEnabled()) {
                 // Draw to Match: Keep drawing until player gets a playable card
                 int cardsDrawn = 0;
@@ -119,11 +133,15 @@ public class MainActivity extends AppCompatActivity {
                     if (gameEngine.canPlayCard(card)) {
                         Toast.makeText(this, "Card drawn - you can play it!", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "Card drawn - cannot play, turn skipped", Toast.LENGTH_SHORT).show();
-                        // Advance to next player since card is not playable
-                        gameEngine.nextPlayer();
-                        updateUI();
-                        processAITurns();
+                        if (settings.isDrawOnNoPlayEnabled()) {
+                            Toast.makeText(this, "Card drawn - cannot play, turn skipped", Toast.LENGTH_SHORT).show();
+                            // Advance to next player since card is not playable
+                            gameEngine.nextPlayer();
+                            updateUI();
+                            processAITurns();
+                        } else {
+                            Toast.makeText(this, "Card drawn - cannot play", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     updateUI();
                 }
@@ -181,7 +199,15 @@ public class MainActivity extends AppCompatActivity {
 
         updatePlayerHand();
 
-        drawButton.setEnabled(!currentPlayer.isAI());
+        // Enable/disable draw button based on Force Play setting
+        boolean isHumanTurn = !currentPlayer.isAI();
+        if (isHumanTurn && settings.isForcePlayEnabled() && gameEngine.hasPlayableCard()) {
+            drawButton.setEnabled(false);
+            drawButton.setText("Must Play Card");
+        } else {
+            drawButton.setEnabled(isHumanTurn);
+            drawButton.setText("Draw Card");
+        }
     }
 
     private void updatePlayerHand() {
@@ -252,12 +278,41 @@ public class MainActivity extends AppCompatActivity {
             showColorChoiceDialog(card);
         } else {
             String result = gameEngine.playCard(card, card.getColor());
-            if (result != null && result.contains("wins")) {
-                handleGameEnd(result);
-            } else {
-                updateUI(); // Animate top card change
+            handleCardPlayResult(result);
+        }
+    }
+
+    private void handleCardPlayResult(String result) {
+        if (result != null && result.contains("wins")) {
+            handleGameEnd(result);
+        } else if (result != null && result.startsWith("SPECIAL:")) {
+            // Handle Seven-Zero Rule
+            if (result.equals("SPECIAL:SEVEN_SWAP")) {
+                showSevenSwapDialog();
+            } else if (result.equals("SPECIAL:ZERO_ROTATE")) {
+                gameEngine.rotateAllHands();
+                Toast.makeText(this, "All hands rotated!", Toast.LENGTH_LONG).show();
+                gameEngine.nextPlayer();
+                updateUI();
                 processAITurns();
             }
+        } else if (result != null && result.startsWith("PROGRESSIVE:")) {
+            // Handle Progressive UNO
+            String[] parts = result.split(":");
+            String cardType = parts[1];
+            int stackCount = Integer.parseInt(parts[2]);
+            Toast.makeText(this, "Progressive UNO! Stack: " + stackCount + " cards", Toast.LENGTH_SHORT).show();
+            gameEngine.nextPlayer();
+            updateUI();
+            processAITurns();
+        } else if (result != null && result.startsWith("CHALLENGE_AVAILABLE:")) {
+            // Handle Challenge Draw Four
+            String[] parts = result.split(":");
+            int challengedPlayerIndex = Integer.parseInt(parts[1]);
+            showChallengeDrawFourDialog(challengedPlayerIndex);
+        } else {
+            updateUI();
+            processAITurns();
         }
     }
 
@@ -269,12 +324,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Choose a color");
         builder.setItems(colors, (dialog, which) -> {
             String result = gameEngine.playCard(card, colorEnums[which]);
-            if (result != null && result.contains("wins")) {
-                handleGameEnd(result);
-            } else {
-                updateUI(); // Animate top card change
-                processAITurns();
-            }
+            handleCardPlayResult(result);
         });
         builder.show();
     }
@@ -292,6 +342,19 @@ public class MainActivity extends AppCompatActivity {
                 Card cardToPlay = currentPlayer.chooseCardToPlay(gameEngine.getTopCard(), settings.isActionStackingEnabled());
                 
                 if (cardToPlay == null) {
+                    // Check if AI is allowed to draw (Force Play and Draw on No Play)
+                    if (!gameEngine.isDrawAllowed()) {
+                        Toast.makeText(MainActivity.this, 
+                                currentPlayer.getDisplayName() + " has no playable card - turn skipped", 
+                                Toast.LENGTH_SHORT).show();
+                        gameEngine.nextPlayer();
+                        updateUI();
+                        if (gameEngine.getCurrentPlayer().isAI()) {
+                            handler.postDelayed(this, 1000);
+                        }
+                        return;
+                    }
+
                     if (settings.isDrawToMatchEnabled()) {
                         // Draw to Match: Keep drawing until AI gets a playable card
                         int cardsDrawn = 0;
@@ -345,10 +408,42 @@ public class MainActivity extends AppCompatActivity {
                             currentPlayer.getDisplayName() + " played " + cardToPlay.getDisplayText(), 
                             Toast.LENGTH_SHORT).show();
                     
+                    // Handle special results for AI
                     if (result != null && result.contains("wins")) {
                         updateUI();
                         showWinnerDialog(result);
                         return;
+                    } else if (result != null && result.startsWith("SPECIAL:SEVEN_SWAP")) {
+                        // AI chooses random other player to swap with
+                        int currentIndex = gameEngine.getPlayers().indexOf(currentPlayer);
+                        int randomTarget;
+                        do {
+                            randomTarget = (int)(Math.random() * gameEngine.getPlayers().size());
+                        } while (randomTarget == currentIndex);
+                        gameEngine.swapHandsWithPlayer(randomTarget);
+                        Toast.makeText(MainActivity.this, 
+                                "Seven Rule: " + currentPlayer.getDisplayName() + " swapped hands!", 
+                                Toast.LENGTH_LONG).show();
+                        gameEngine.nextPlayer();
+                    } else if (result != null && result.startsWith("SPECIAL:ZERO_ROTATE")) {
+                        gameEngine.rotateAllHands();
+                        Toast.makeText(MainActivity.this, "Zero Rule: All hands rotated!", Toast.LENGTH_LONG).show();
+                        gameEngine.nextPlayer();
+                    } else if (result != null && result.startsWith("PROGRESSIVE:")) {
+                        String[] parts = result.split(":");
+                        int stackCount = Integer.parseInt(parts[2]);
+                        Toast.makeText(MainActivity.this, 
+                                "Progressive UNO! Stack: " + stackCount + " cards", 
+                                Toast.LENGTH_SHORT).show();
+                        gameEngine.nextPlayer();
+                    } else if (result != null && result.startsWith("CHALLENGE_AVAILABLE:")) {
+                        // AI automatically doesn't challenge (simple AI behavior)
+                        gameEngine.nextPlayer();
+                        Player nextPlayer = gameEngine.getCurrentPlayer();
+                        gameEngine.drawCards(nextPlayer, 4);
+                        Toast.makeText(MainActivity.this, 
+                                nextPlayer.getDisplayName() + " drew 4 cards", 
+                                Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     // AI has no card to play, skip turn
@@ -389,6 +484,64 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, StatsActivity.class);
             startActivity(intent);
             startNewGame();
+        });
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+    // Seven-Zero Rule: Choose player to swap hands with
+    private void showSevenSwapDialog() {
+        List<String> playerNames = new ArrayList<>();
+        List<Integer> playerIndices = new ArrayList<>();
+        
+        int currentIndex = 0; // Human player is always index 0
+        for (int i = 0; i < gameEngine.getPlayers().size(); i++) {
+            if (i != currentIndex) { // Exclude current player
+                Player p = gameEngine.getPlayers().get(i);
+                playerNames.add(p.getDisplayName() + " (" + p.getCardCount() + " cards)");
+                playerIndices.add(i);
+            }
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Seven Rule: Choose player to swap hands with");
+        builder.setItems(playerNames.toArray(new String[0]), (dialog, which) -> {
+            int targetIndex = playerIndices.get(which);
+            gameEngine.swapHandsWithPlayer(targetIndex);
+            Toast.makeText(this, "Hands swapped with " + gameEngine.getPlayers().get(targetIndex).getDisplayName(), Toast.LENGTH_LONG).show();
+            gameEngine.nextPlayer();
+            updateUI();
+            processAITurns();
+        });
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+    // Challenge Draw Four Dialog
+    private void showChallengeDrawFourDialog(int challengedPlayerIndex) {
+        Player challengedPlayer = gameEngine.getPlayers().get(challengedPlayerIndex);
+        
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Wild Draw Four Played!");
+        builder.setMessage(challengedPlayer.getDisplayName() + " played a Wild Draw Four.\n\nDo you want to challenge?");
+        builder.setPositiveButton("Challenge", (dialog, which) -> {
+            boolean challengeSucceeds = gameEngine.canChallengeDrawFour(challengedPlayerIndex);
+            if (challengeSucceeds) {
+                Toast.makeText(this, "Challenge successful! " + challengedPlayer.getDisplayName() + " had a matching color and draws 4!", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Challenge failed! You draw 6 cards instead!", Toast.LENGTH_LONG).show();
+            }
+            gameEngine.executeChallengeResult(challengeSucceeds, challengedPlayerIndex);
+            updateUI();
+            processAITurns();
+        });
+        builder.setNegativeButton("Don't Challenge", (dialog, which) -> {
+            gameEngine.nextPlayer();
+            Player nextPlayer = gameEngine.getCurrentPlayer();
+            gameEngine.drawCards(nextPlayer, 4);
+            Toast.makeText(this, "Drew 4 cards", Toast.LENGTH_SHORT).show();
+            updateUI();
+            processAITurns();
         });
         builder.setCancelable(false);
         builder.show();
