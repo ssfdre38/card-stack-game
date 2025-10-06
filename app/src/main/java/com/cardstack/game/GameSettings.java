@@ -10,10 +10,15 @@ public class GameSettings {
     private static final String KEY_DRAW_ON_NO_PLAY = "draw_on_no_play";
     private static final String KEY_JUMP_IN_ENABLED = "jump_in_enabled";
     private static final String KEY_SEVEN_ZERO_RULE = "seven_zero_rule";
-    private static final String KEY_PROGRESSIVE_UNO = "progressive_uno";
+    private static final String KEY_DRAW_STACKING = "draw_stacking";
     private static final String KEY_FORCE_PLAY = "force_play";
     private static final String KEY_CHALLENGE_DRAW_FOUR = "challenge_draw_four";
     private static final String KEY_DRAW_TO_MATCH = "draw_to_match";
+    
+    // Legacy key for backward compatibility migration only
+    // This old key name is checked once to migrate existing user settings,
+    // then deleted. Not used in any new installations.
+    private static final String KEY_PROGRESSIVE_UNO_LEGACY = "progressive_uno";
     
     private SharedPreferences prefs;
     
@@ -23,13 +28,27 @@ public class GameSettings {
     public static final boolean DEFAULT_DRAW_ON_NO_PLAY = true;
     public static final boolean DEFAULT_JUMP_IN = false;
     public static final boolean DEFAULT_SEVEN_ZERO = false;
-    public static final boolean DEFAULT_PROGRESSIVE = false;
+    public static final boolean DEFAULT_DRAW_STACKING = false;
     public static final boolean DEFAULT_FORCE_PLAY = false;
     public static final boolean DEFAULT_CHALLENGE_DRAW_FOUR = false;
     public static final boolean DEFAULT_DRAW_TO_MATCH = false;
     
     public GameSettings(Context context) {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        migrateLegacySettings();
+    }
+    
+    // Migrate old settings keys to new trademark-free names
+    // This ensures existing users don't lose their settings
+    private void migrateLegacySettings() {
+        // Migrate old progressive_uno key to new draw_stacking key
+        if (prefs.contains(KEY_PROGRESSIVE_UNO_LEGACY) && !prefs.contains(KEY_DRAW_STACKING)) {
+            boolean oldValue = prefs.getBoolean(KEY_PROGRESSIVE_UNO_LEGACY, DEFAULT_DRAW_STACKING);
+            prefs.edit()
+                .putBoolean(KEY_DRAW_STACKING, oldValue)
+                .remove(KEY_PROGRESSIVE_UNO_LEGACY)  // Delete old key after migration
+                .apply();
+        }
     }
     
     // Starting cards (5-10)
@@ -79,11 +98,11 @@ public class GameSettings {
     
     // Progressive Draw (Draw cards stack)
     public boolean isProgressiveDrawEnabled() {
-        return prefs.getBoolean(KEY_PROGRESSIVE_UNO, DEFAULT_PROGRESSIVE);
+        return prefs.getBoolean(KEY_DRAW_STACKING, DEFAULT_DRAW_STACKING);
     }
     
     public void setProgressiveDrawEnabled(boolean enabled) {
-        prefs.edit().putBoolean(KEY_PROGRESSIVE_UNO, enabled).apply();
+        prefs.edit().putBoolean(KEY_DRAW_STACKING, enabled).apply();
     }
     
     // Force play (must play if you have a valid card)
