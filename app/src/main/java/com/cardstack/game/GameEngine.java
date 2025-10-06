@@ -12,7 +12,7 @@ public class GameEngine {
     private Card topCard;
     private Card.Color currentWildColor;
     private GameSettings settings;
-    private int progressiveDrawStack; // For Progressive UNO
+    private int progressiveDrawStack; // For Progressive Draw Stacking
     private Card.Type stackedCardType; // Track if stacking Draw Two or Draw Four
     private int lastPlayerIndex; // For Challenge Draw Four
 
@@ -124,7 +124,7 @@ public class GameEngine {
                 break;
             case DRAW_TWO:
                 if (settings.isProgressiveUnoEnabled() && progressiveDrawStack >= 0) {
-                    // Progressive UNO: Stack the draw count
+                    // Progressive Draw Stacking: Stack the draw count
                     progressiveDrawStack += 2;
                     stackedCardType = Card.Type.DRAW_TWO;
                     return "PROGRESSIVE:DRAW_TWO:" + progressiveDrawStack;
@@ -136,7 +136,7 @@ public class GameEngine {
                 break;
             case WILD_DRAW_FOUR:
                 if (settings.isProgressiveUnoEnabled() && progressiveDrawStack >= 0) {
-                    // Progressive UNO: Stack the draw count
+                    // Progressive Draw Stacking: Stack the draw count
                     progressiveDrawStack += 4;
                     stackedCardType = Card.Type.WILD_DRAW_FOUR;
                     return "PROGRESSIVE:WILD_DRAW_FOUR:" + progressiveDrawStack;
@@ -207,7 +207,7 @@ public class GameEngine {
         return card;
     }
 
-    // Progressive UNO methods
+    // Progressive Draw Stacking methods
     public int getProgressiveDrawStack() {
         return progressiveDrawStack;
     }

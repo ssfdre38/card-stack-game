@@ -297,11 +297,11 @@ public class MainActivity extends AppCompatActivity {
                 processAITurns();
             }
         } else if (result != null && result.startsWith("PROGRESSIVE:")) {
-            // Handle Progressive UNO
+            // Handle Progressive Draw Stacking
             String[] parts = result.split(":");
             String cardType = parts[1];
             int stackCount = Integer.parseInt(parts[2]);
-            Toast.makeText(this, "Progressive UNO! Stack: " + stackCount + " cards", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Draw cards stacked! Total: " + stackCount + " cards", Toast.LENGTH_SHORT).show();
             gameEngine.nextPlayer();
             updateUI();
             processAITurns();
@@ -433,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
                         String[] parts = result.split(":");
                         int stackCount = Integer.parseInt(parts[2]);
                         Toast.makeText(MainActivity.this, 
-                                "Progressive UNO! Stack: " + stackCount + " cards", 
+                                "Draw cards stacked! Total: " + stackCount + " cards", 
                                 Toast.LENGTH_SHORT).show();
                         gameEngine.nextPlayer();
                     } else if (result != null && result.startsWith("CHALLENGE_AVAILABLE:")) {
